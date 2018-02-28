@@ -42,7 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\Component.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Math\DMath.cs" />
+    <Compile Include="Math\DVector2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
