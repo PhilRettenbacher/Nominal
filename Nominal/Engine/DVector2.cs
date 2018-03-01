@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nominal.Math
+namespace Nominal.Engine
 {
     public class DVector2
     {
