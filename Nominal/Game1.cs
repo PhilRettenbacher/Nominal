@@ -13,7 +13,7 @@ namespace Nominal
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -29,6 +29,10 @@ namespace Nominal
         protected override void Initialize()
         {
             base.Initialize();
+            GameObject go = new GameObject();
+            TestComponent tc = go.AddComponent<TestComponent>();
+
+            System.Console.WriteLine(tc.enabled);
         }
 
         /// <summary>
