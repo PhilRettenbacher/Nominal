@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\GameObject.cs" />
+    <Compile Include="Engine\IDestroyable.cs" />
     <Compile Include="Engine\IDrawable.cs" />
     <Compile Include="Engine\InputManager.cs" />
     <Compile Include="Engine\IUpdateable.cs" />

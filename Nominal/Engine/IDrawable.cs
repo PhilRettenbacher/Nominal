@@ -5,6 +5,6 @@ namespace Nominal.Engine
 {
     public interface IDrawable
     {
-        void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch);
     }
 }

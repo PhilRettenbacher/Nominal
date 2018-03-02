@@ -4,6 +4,6 @@ namespace Nominal.Engine
 {
     public interface IUpdateable
     {
-        void Update(GameTime gameTime);
+        void Update();
     }
 }

@@ -9,6 +9,11 @@ namespace Nominal.Test
 {
     class TestComponent : Component
     {
+        public override void Awake()
+        {
+            
+        }
+
         public override void OnDestroy()
         {
             
