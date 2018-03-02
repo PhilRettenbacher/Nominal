@@ -43,13 +43,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Engine\Component.cs" />
+    <Compile Include="Engine\GameObject.cs" />
     <Compile Include="Engine\IDrawable.cs" />
+    <Compile Include="Engine\InputManager.cs" />
     <Compile Include="Engine\IUpdateable.cs" />
+    <Compile Include="Engine\Time.cs" />
+    <Compile Include="Engine\Transform.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Math\DMath.cs" />
     <Compile Include="Engine\DVector2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\TestComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

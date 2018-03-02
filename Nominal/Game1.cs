@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nominal.Engine;
+using Nominal.Test;
 
 namespace Nominal
 {
@@ -26,8 +28,6 @@ namespace Nominal
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -59,11 +59,12 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Time.gameTimeUpdate = gameTime;
+
+            if (InputManager.GetKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            InputManager.LateUpdate();
             base.Update(gameTime);
         }
 
@@ -73,6 +74,8 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Time.gameTimeDraw = gameTime;
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here

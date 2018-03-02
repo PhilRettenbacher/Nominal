@@ -29,6 +29,13 @@ namespace Nominal.Engine
                 return new DVector2(0, 0);
             }
         }
+        public static DVector2 uniform
+        {
+            get
+            {
+                return new DVector2(1, 1);
+            }
+        }
 
         public double X;
         public double Y;

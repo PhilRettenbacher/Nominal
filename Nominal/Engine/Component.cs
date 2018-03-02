@@ -30,7 +30,33 @@ namespace Nominal.Engine
                 }
             }
         }
-        bool _enabled;
+        private bool _enabled;
+
+        public GameObject gameObject
+        {
+            get
+            {
+                return _gameObject;
+            }
+            set
+            {
+                if(!_gameObject)
+                {
+                    _gameObject = value;
+                    _transform = _gameObject.transform;
+                }
+            }
+        }
+        private GameObject _gameObject;
+
+        public Transform transform
+        {
+            get
+            {
+                return _transform;
+            }
+        }
+        private Transform _transform;
 
         abstract public void Start();
         abstract public void OnEnable();
