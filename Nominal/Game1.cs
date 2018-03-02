@@ -18,6 +18,8 @@ namespace Nominal
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -31,8 +33,13 @@ namespace Nominal
             base.Initialize();
             GameObject go = new GameObject();
             TestComponent tc = go.AddComponent<TestComponent>();
+            
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
 
-            System.Console.WriteLine(tc.enabled);
+            graphics.ApplyChanges();
+
+            System.Console.WriteLine("Testcomponent enabled: " + tc.enabled);
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace Nominal
         {
             Time.gameTimeDraw = gameTime;
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 

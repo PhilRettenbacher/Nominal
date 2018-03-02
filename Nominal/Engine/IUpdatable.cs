@@ -2,7 +2,7 @@
 
 namespace Nominal.Engine
 {
-    public interface IUpdateable
+    public interface IUpdatable
     {
         void Update(GameTime gameTime);
     }
