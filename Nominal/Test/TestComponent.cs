@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nominal.Test
 {
-    class TestComponent : Component, Engine.IDrawable, IUpdatable
+    class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
