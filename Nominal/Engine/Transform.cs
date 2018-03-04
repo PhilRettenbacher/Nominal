@@ -9,7 +9,7 @@ namespace Nominal.Engine
     public class Transform
     {
         public DVector2 position;
-        public double rotation;
         public DVector2 size;
+        public double rotation;
     }
 }
