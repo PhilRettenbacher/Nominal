@@ -126,7 +126,9 @@ namespace Nominal.Engine
             if(hierarchy.Contains(this))
                 hierarchy.Remove(this);
             components.ForEach(x => x.Destroy());
+            components = null;
             children.ForEach(x => x.Destroy());
+            children = null;
         }
 
         private void Update()
