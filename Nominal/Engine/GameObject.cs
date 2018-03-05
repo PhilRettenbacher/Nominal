@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public sealed class GameObject : IDestroyable
+    public sealed class GameObject : Object, IDestroyable
     {
         #region StaticVars
         //List of all GOs in Game
@@ -25,7 +26,22 @@ namespace Nominal.Engine
         }
         private Transform _tranform;
 
-        public string name;
+        public string name
+        {
+            get
+            {
+                if (destroyed)
+                    return null;
+                return _name;
+            }
+            set
+            {
+                if (destroyed)
+                    return;
+                _name = value;
+            }
+        }
+        private string _name;
 
         public GameObject parent
         {
@@ -91,15 +107,21 @@ namespace Nominal.Engine
 
         public GameObject FindChild(string name)
         {
+            if (destroyed)
+                return null;
             return FindChildren(name).FirstOrDefault();
         }
         public IEnumerable<GameObject> FindChildren(string name)
         {
+            if (destroyed)
+                return null;
             return children.Where(x => x.name == name);
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
+            if (destroyed)
+                return;
             parent = null;
             _tranform = null;
             destroyed = true;
@@ -108,12 +130,36 @@ namespace Nominal.Engine
             components.ForEach(x => x.Destroy());
             children.ForEach(x => x.Destroy());
         }
+
+        private void Update()
+        {
+            if (destroyed)
+                return;
+            components.Where(x => x is IUpdateable).Select(x => (IUpdateable)x).ToList().ForEach(x => x.Update());
+            children.ForEach(x => x.Update());
+        }
+        private void Draw(SpriteBatch spriteBatch)
+        {
+            if (destroyed)
+                return;
+            components.Where(x => x is IDrawable).Select(x => (IDrawable)x).ToList().ForEach(x => x.Draw(spriteBatch));
+            children.ForEach(x => x.Draw(spriteBatch));
+        }
+        public override void OnEnable()
+        {
+
+        }
+
+        public override void OnDisable()
+        {
+
+        }
         #endregion
 
         #region StaticFuncs
         public static implicit operator bool(GameObject gameObject)
         {
-            return gameObject==null ? false : gameObject != gameObject.destroyed;
+            return gameObject==null ? false : !gameObject.destroyed;
         }
 
         //(Re)sets child (curr), from the current GO (from) to the new GO (to)
@@ -136,6 +182,15 @@ namespace Nominal.Engine
         public static GameObject FindGameObject(string name)
         {
             return FindGameObjects(name).FirstOrDefault();
+        }
+
+        public static void UpdateObjects()
+        {
+            hierarchy.Where(x => x.parent == null).ToList().ForEach(x => x.Update());
+        }
+        public static void DrawObjects(SpriteBatch spriteBatch)
+        {
+            hierarchy.Where(x => x.parent == null).ToList().ForEach(x => x.Draw(spriteBatch));
         }
         #endregion
     }

@@ -33,13 +33,17 @@ namespace Nominal
             base.Initialize();
             GameObject go = new GameObject();
             TestComponent tc = go.AddComponent<TestComponent>();
-            
+            GameObject go2 = new GameObject();
+            TestComponent tc2 = go2.AddComponent<TestComponent>();
+            go2.parent = go;
+            go.Destroy();
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
 
             graphics.ApplyChanges();
 
-            System.Console.WriteLine("Testcomponent enabled: " + tc.enabled);
+            System.Console.WriteLine("TestComponent: " + (tc==true));
+            System.Console.WriteLine("TestComponent2: " + (tc2==true));
         }
 
         /// <summary>

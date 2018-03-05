@@ -8,38 +8,8 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public abstract class Component : IDestroyable
+    public abstract class Component : Object, IDestroyable
     {
-        public bool enabled
-        {
-            get
-            {
-                if (destroyed)
-                    return false;
-                return _enabled;
-            }
-            set
-            {
-                if (destroyed)
-                    return;
-                if (value!=_enabled)
-                {
-                    _enabled = value;
-                    if(value)
-                    {
-                        OnEnable();
-                    }
-                    else
-                    {
-                        OnDisable();
-                    }
-                }
-            }
-        }
-        private bool _enabled;
-
-        private bool destroyed;
-
         public GameObject gameObject
         {
             get
@@ -72,16 +42,21 @@ namespace Nominal.Engine
 
         abstract public void Awake();
         abstract public void Start();
-        abstract public void OnEnable();
-        abstract public void OnDisable();
+        abstract public override void OnEnable();
+        abstract public override void OnDisable();
         abstract public void OnDestroy();
 
-        public void Destroy()
+        public override void Destroy()
         {
             OnDestroy();
             destroyed = true;
             _gameObject = null;
             _transform = null;
+        }
+
+        public static implicit operator bool(Component component)
+        {
+            return component == null ? false : !component.destroyed;
         }
     }
 }

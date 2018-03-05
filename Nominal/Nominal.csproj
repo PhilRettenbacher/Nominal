@@ -48,6 +48,7 @@
     <Compile Include="Engine\IDrawable.cs" />
     <Compile Include="Engine\InputManager.cs" />
     <Compile Include="Engine\IUpdateable.cs" />
+    <Compile Include="Engine\Object.cs" />
     <Compile Include="Engine\Time.cs" />
     <Compile Include="Engine\Transform.cs" />
     <Compile Include="Game1.cs" />
