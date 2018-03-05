@@ -13,36 +13,38 @@ namespace Nominal.Test
     {
 
         public override void Awake()
-        { }
-
-        public void Draw(SpriteBatch spriteBatch)
         {
-            
+
         }
+        public override void Start()
+        {
+
+        }
+
 
         public override void OnDestroy()
         {
-            
+            System.Console.WriteLine("Destroyed");
         }
-
         public override void OnDisable()
         {
-            
+            System.Console.WriteLine("Disabled");
         }
-
         public override void OnEnable()
         {
-            
+            System.Console.WriteLine("Enabled");
         }
 
-        public override void Start()
+
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            
+            System.Console.WriteLine("Draw: " + Time.deltaTimeDraw + " : " + Time.time);
         }
 
         public void Update()
         {
-            
+            System.Console.WriteLine("Update: " + Time.deltaTimeUpdate + " : " + Time.time);
         }
     }
 }

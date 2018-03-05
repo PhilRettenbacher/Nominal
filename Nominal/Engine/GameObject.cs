@@ -62,8 +62,6 @@ namespace Nominal.Engine
         }
         private GameObject _parent;
 
-        private bool destroyed;
-
         private List<Component> components = new List<Component>();
         private List<GameObject> children = new List<GameObject>();
         #endregion
@@ -133,26 +131,29 @@ namespace Nominal.Engine
 
         private void Update()
         {
-            if (destroyed)
+            if (destroyed||!enabled)
                 return;
             components.Where(x => x is IUpdateable).Select(x => (IUpdateable)x).ToList().ForEach(x => x.Update());
             children.ForEach(x => x.Update());
         }
         private void Draw(SpriteBatch spriteBatch)
         {
-            if (destroyed)
+            if (destroyed||!enabled)
                 return;
             components.Where(x => x is IDrawable).Select(x => (IDrawable)x).ToList().ForEach(x => x.Draw(spriteBatch));
             children.ForEach(x => x.Draw(spriteBatch));
         }
+
+        //TODO: Fix some bugs which will probably occour with OnEnable and OnDisable
         public override void OnEnable()
         {
-
+            components.ForEach(x => { if (x.enabled) { x.OnEnable(); } });
+            children.ForEach(x => { if (x.enabled) { x.OnEnable(); } });
         }
-
         public override void OnDisable()
         {
-
+            components.ForEach(x => { if (x.enabled) { x.OnDisable(); } });
+            children.ForEach(x => { if (x.enabled) { x.OnDisable(); } });
         }
         #endregion
 

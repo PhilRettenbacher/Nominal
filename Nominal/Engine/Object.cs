@@ -34,7 +34,7 @@ namespace Nominal.Engine
                 }
             }
         }
-        private bool _enabled;
+        private bool _enabled = true;
         protected bool destroyed;
 
         abstract public void OnEnable();

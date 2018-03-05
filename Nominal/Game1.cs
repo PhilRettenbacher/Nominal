@@ -13,7 +13,10 @@ namespace Nominal
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+
+        GameObject go;
+        GameObject go2;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -31,19 +34,17 @@ namespace Nominal
         protected override void Initialize()
         {
             base.Initialize();
-            GameObject go = new GameObject();
-            TestComponent tc = go.AddComponent<TestComponent>();
-            GameObject go2 = new GameObject();
-            TestComponent tc2 = go2.AddComponent<TestComponent>();
+            go = new GameObject();
+
+            go2 = new GameObject();
+            TestComponent tc = go2.AddComponent<TestComponent>();
             go2.parent = go;
-            go.Destroy();
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
 
             graphics.ApplyChanges();
 
             System.Console.WriteLine("TestComponent: " + (tc==true));
-            System.Console.WriteLine("TestComponent2: " + (tc2==true));
         }
 
         /// <summary>
@@ -76,8 +77,16 @@ namespace Nominal
         {
             Time.gameTimeUpdate = gameTime;
 
-            if (InputManager.GetKeyDown(Keys.Escape))
-                Exit();
+            GameObject.UpdateObjects();
+
+            if(InputManager.GetKeyDown(Keys.Space))
+            {
+                go2.enabled = !go2.enabled;
+            }
+            if(InputManager.GetKeyDown(Keys.Enter))
+            {
+                go2.Destroy();
+            }
 
             InputManager.LateUpdate();
             base.Update(gameTime);
@@ -93,7 +102,7 @@ namespace Nominal
 
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            GameObject.DrawObjects(spriteBatch);
 
             base.Draw(gameTime);
         }
