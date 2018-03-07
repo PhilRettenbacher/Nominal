@@ -15,7 +15,6 @@ namespace Nominal
         SpriteBatch spriteBatch;
 
         GameObject go;
-        GameObject go2;
 
         public Game1()
         {
@@ -45,15 +44,12 @@ namespace Nominal
             base.Initialize();
             go = new GameObject();
 
-            go2 = new GameObject();
-            TestComponent tc = go2.AddComponent<TestComponent>();
-            go2.parent = go;
+            TestComponent tc = go.AddComponent<TestComponent>();
+
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
 
             graphics.ApplyChanges();
-
-            System.Console.WriteLine("TestComponent: " + (tc==true));
         }
 
         /// <summary>
@@ -90,11 +86,11 @@ namespace Nominal
 
             if(InputManager.GetKeyDown(Keys.Space))
             {
-                go2.enabled = !go2.enabled;
+
             }
             if(InputManager.GetKeyDown(Keys.Enter))
             {
-                go2.Destroy();
+
             }
 
             InputManager.LateUpdate();
