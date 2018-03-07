@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nominal.Engine;
+using Nominal.Test;
 
 namespace Nominal
 {
@@ -12,10 +14,15 @@ namespace Nominal
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameObject go;
+        GameObject go2;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -26,13 +33,27 @@ namespace Nominal
         /// </summary>
         protected override void Initialize()
         {
+<<<<<<< HEAD
             // TODO: Add your initialization logic here
 
             this.IsMouseVisible = true;
             
             //this.graphics.ApplyChanges();
 
+=======
+>>>>>>> 260dbc74a6291480e064c53492d5b2d4bd77d4c8
             base.Initialize();
+            go = new GameObject();
+
+            go2 = new GameObject();
+            TestComponent tc = go2.AddComponent<TestComponent>();
+            go2.parent = go;
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+
+            graphics.ApplyChanges();
+
+            System.Console.WriteLine("TestComponent: " + (tc==true));
         }
 
         /// <summary>
@@ -63,11 +84,20 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            Time.gameTimeUpdate = gameTime;
 
-            // TODO: Add your update logic here
+            GameObject.UpdateObjects();
 
+            if(InputManager.GetKeyDown(Keys.Space))
+            {
+                go2.enabled = !go2.enabled;
+            }
+            if(InputManager.GetKeyDown(Keys.Enter))
+            {
+                go2.Destroy();
+            }
+
+            InputManager.LateUpdate();
             base.Update(gameTime);
         }
 
@@ -77,9 +107,15 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+<<<<<<< HEAD
             GraphicsDevice.Clear(Color.Gray);
+=======
+            Time.gameTimeDraw = gameTime;
 
-            // TODO: Add your drawing code here
+            GraphicsDevice.Clear(Color.Black);
+>>>>>>> 260dbc74a6291480e064c53492d5b2d4bd77d4c8
+
+            GameObject.DrawObjects(spriteBatch);
 
             base.Draw(gameTime);
         }

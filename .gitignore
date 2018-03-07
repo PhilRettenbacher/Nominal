@@ -52,3 +52,6 @@ monodroid*.msi
 
 #Unix temporary files
 *~
+
+#Macht Probleme
+.vs/Nominal/v15/Server/sqlite3/db.lock
