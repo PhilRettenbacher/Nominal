@@ -48,7 +48,7 @@ namespace Nominal.Engine
         {
             base.Destroy();
             _transform = null;
-            gameObject = null;
+            _gameObject = null;
         }
     }
 }

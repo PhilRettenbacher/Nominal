@@ -15,7 +15,6 @@ namespace Nominal
         SpriteBatch spriteBatch;
 
         GameObject go;
-        GameObject go2;
 
         public Game1()
         {
@@ -36,9 +35,7 @@ namespace Nominal
             base.Initialize();
             go = new GameObject();
 
-            go2 = new GameObject();
-            go2.transform.parent = go.transform;
-            TestComponent tc = go2.AddComponent<TestComponent>();
+            TestComponent tc = go.AddComponent<TestComponent>();
 
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
