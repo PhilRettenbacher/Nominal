@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public sealed class GameObject : Object, IDestroyable
+    public sealed class GameObject : Object
     {
         #region StaticVars
         //List of all GOs in Game
-        static List<GameObject> hierarchy = new List<GameObject>();
+        static List<GameObject> objects = new List<GameObject>();
         #endregion
 
         #region NonStaticVars
@@ -19,64 +19,43 @@ namespace Nominal.Engine
         {
             get
             {
-                if (destroyed)
+                if (isDestroyed)
                     return null;
-                return _tranform;
+                return _transform;
             }
         }
-        private Transform _tranform;
+        private Transform _transform;
 
         public string name
         {
             get
             {
-                if (destroyed)
+                if (isDestroyed)
                     return null;
                 return _name;
             }
             set
             {
-                if (destroyed)
-                    return;
                 _name = value;
             }
         }
         private string _name;
 
-        public GameObject parent
-        {
-            get
-            {
-                if (destroyed)
-                    return null;
-                return _parent;
-            }
-            set
-            {
-                if(_parent != value&&!destroyed)
-                {
-                    SetChild(this, _parent, value);
-                    _parent = value;
-                }
-            }
-        }
-        private GameObject _parent;
-
         private List<Component> components = new List<Component>();
-        private List<GameObject> children = new List<GameObject>();
         #endregion
 
         #region Constructors
         public GameObject()
         {
-            _tranform = new Transform();
-            _tranform.position = DVector2.zero;
-            _tranform.rotation = 0;
-            _tranform.size = DVector2.uniform;
+            _transform = new Transform();
+            _transform.position = DVector2.zero;
+            _transform.rotation = 0;
+            _transform.size = DVector2.uniform;
+            _transform.gameObject = this;
 
             name = "New GO";
 
-            hierarchy.Add(this);
+            objects.Add(this);
         }
         #endregion
 
@@ -84,17 +63,18 @@ namespace Nominal.Engine
 
         public T AddComponent<T>() where T : Component, new()
         {
-            if (destroyed)
+            if (isDestroyed)
                 return null;
             T component = new T();
             component.gameObject = this;
+            component.transform = transform;
             components.Add(component);
             component.Awake();
             return component;
         }
         public T GetComponent<T>() where T : Component
         {
-            if (destroyed)
+            if (isDestroyed)
                 return null;
             var comps = components.Where(x => typeof(T).Equals(x));
             if (comps.Count() > 0)
@@ -103,97 +83,64 @@ namespace Nominal.Engine
                 return null;
         }
 
-        public GameObject FindChild(string name)
+        public void RemoveComponent(Component toRemove)
         {
-            if (destroyed)
-                return null;
-            return FindChildren(name).FirstOrDefault();
-        }
-        public IEnumerable<GameObject> FindChildren(string name)
-        {
-            if (destroyed)
-                return null;
-            return children.Where(x => x.name == name);
+            if(!toRemove.isDestroyed)
+            {
+                Destroy(toRemove);
+                return;
+            }
+            if(components.Contains(toRemove))
+            {
+                components.Remove(toRemove);
+            }
         }
 
-        public override void Destroy()
+        override protected void Destroy()
         {
-            if (destroyed)
-                return;
-            parent = null;
-            _tranform = null;
-            destroyed = true;
-            if(hierarchy.Contains(this))
-                hierarchy.Remove(this);
-            components.ForEach(x => x.Destroy());
-            components = null;
-            children.ForEach(x => x.Destroy());
-            children = null;
+            base.Destroy();
+            for(int i = components.Count-1; i>=0; i--)
+            {
+                Destroy(components[i]);
+            }
+            
+            Destroy(_transform);
+            
+            if (objects.Contains(this))
+                objects.Remove(this);
         }
 
         private void Update()
         {
-            if (destroyed||!enabled)
-                return;
-            components.Where(x => x is IUpdateable).Select(x => (IUpdateable)x).ToList().ForEach(x => x.Update());
-            children.ForEach(x => x.Update());
+            components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
+            components.Where(x => x is IUpdateable).ToList().ForEach(x => ((IUpdateable)x).Update());
         }
         private void Draw(SpriteBatch spriteBatch)
         {
-            if (destroyed||!enabled)
-                return;
-            components.Where(x => x is IDrawable).Select(x => (IDrawable)x).ToList().ForEach(x => x.Draw(spriteBatch));
-            children.ForEach(x => x.Draw(spriteBatch));
-        }
-
-        //TODO: Fix some bugs which will probably occour with OnEnable and OnDisable
-        public override void OnEnable()
-        {
-            components.ForEach(x => { if (x.enabled) { x.OnEnable(); } });
-            children.ForEach(x => { if (x.enabled) { x.OnEnable(); } });
-        }
-        public override void OnDisable()
-        {
-            components.ForEach(x => { if (x.enabled) { x.OnDisable(); } });
-            children.ForEach(x => { if (x.enabled) { x.OnDisable(); } });
+            components.Where(x => x is IDrawable).ToList().ForEach(x => ((IDrawable)x).Draw(spriteBatch));
         }
         #endregion
 
         #region StaticFuncs
-        public static implicit operator bool(GameObject gameObject)
-        {
-            return gameObject==null ? false : !gameObject.destroyed;
-        }
 
-        //(Re)sets child (curr), from the current GO (from) to the new GO (to)
-        static void SetChild(GameObject curr, GameObject from, GameObject to)
+        public static IEnumerable<GameObject> FindObjects(string name)
         {
-            if(from)
-            {
-                from.children.Remove(curr);
-            }
-            if(to)
-            {
-                to.children.Add(curr);
-            }
+            //TODO
+            return null;
         }
-
-        public static IEnumerable<GameObject> FindGameObjects(string name)
+        public static GameObject FindObject(string name)
         {
-            return hierarchy.Where(x => x.name == name);
-        }
-        public static GameObject FindGameObject(string name)
-        {
-            return FindGameObjects(name).FirstOrDefault();
+            //TODO
+            return null;
         }
 
         public static void UpdateObjects()
         {
-            hierarchy.Where(x => x.parent == null).ToList().ForEach(x => x.Update());
+            objects.ForEach(x => x.Update());
         }
         public static void DrawObjects(SpriteBatch spriteBatch)
         {
-            hierarchy.Where(x => x.parent == null).ToList().ForEach(x => x.Draw(spriteBatch));
+            objects.ForEach(x => x.Draw(spriteBatch));
         }
         #endregion
     }

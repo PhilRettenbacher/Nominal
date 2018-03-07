@@ -37,14 +37,13 @@ namespace Nominal
             go = new GameObject();
 
             go2 = new GameObject();
+            go2.transform.parent = go.transform;
             TestComponent tc = go2.AddComponent<TestComponent>();
-            go2.parent = go;
+
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
 
             graphics.ApplyChanges();
-
-            System.Console.WriteLine("TestComponent: " + (tc==true));
         }
 
         /// <summary>
@@ -81,11 +80,11 @@ namespace Nominal
 
             if(InputManager.GetKeyDown(Keys.Space))
             {
-                go2.enabled = !go2.enabled;
+
             }
             if(InputManager.GetKeyDown(Keys.Enter))
             {
-                go2.Destroy();
+
             }
 
             InputManager.LateUpdate();

@@ -8,55 +8,35 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public abstract class Component : Object, IDestroyable
+    public abstract class Component : Container
     {
-        public GameObject gameObject
+        abstract public void Awake();
+        abstract public void Start();
+        abstract public void OnDestroy();
+
+        public bool isInitialized
         {
             get
             {
-                if (destroyed)
-                    return null;
-                return _gameObject;
+                return _isInitialized;
             }
             set
             {
-                if(!_gameObject&&!destroyed)
+                if(!_isInitialized&&value)
                 {
-                    _gameObject = value;
-                    _transform = _gameObject.transform;
+                    _isInitialized = true;
+                    Start();
                 }
             }
         }
-        private GameObject _gameObject;
+        private bool _isInitialized;
 
-        public Transform transform
-        {
-            get
-            {
-                if (destroyed)
-                    return null;
-                return _transform;
-            }
-        }
-        private Transform _transform;
-
-        abstract public void Awake();
-        abstract public void Start();
-        abstract public override void OnEnable();
-        abstract public override void OnDisable();
-        abstract public void OnDestroy();
-
-        public override void Destroy()
+        override protected sealed void Destroy()
         {
             OnDestroy();
-            destroyed = true;
-            _gameObject = null;
-            _transform = null;
-        }
-
-        public static implicit operator bool(Component component)
-        {
-            return component == null ? false : !component.destroyed;
+            GameObject currGo = gameObject;
+            base.Destroy();
+            currGo.RemoveComponent(this);
         }
     }
 }
