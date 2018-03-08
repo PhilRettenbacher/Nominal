@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nominal.Components;
 using Nominal.Engine;
 using Nominal.Test;
+using System.Linq;
 
 namespace Nominal
 {
@@ -15,6 +17,7 @@ namespace Nominal
         SpriteBatch spriteBatch;
 
         GameObject go;
+        GameObject camGo;
 
         public Game1()
         {
@@ -33,13 +36,23 @@ namespace Nominal
         protected override void Initialize()
         {
             base.Initialize();
+
+            Texture2D text = new Texture2D(graphics.GraphicsDevice, 100, 100);
+            Color[] data = new Color[100 * 100];
+            for(int i = 0; i<100*100; i++)
+            {
+                data[i] = Color.White;
+            }
+            text.SetData(data);
+            System.Console.WriteLine(data[345]);
+
+            camGo = new GameObject();
             go = new GameObject();
-
-            TestComponent tc = go.AddComponent<TestComponent>();
-
+            camGo.AddComponent<Components.Cam.Camera>();
+            SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+            rend.texture = text;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
-
             graphics.ApplyChanges();
         }
 
@@ -75,15 +88,6 @@ namespace Nominal
 
             GameObject.UpdateObjects();
 
-            if(InputManager.GetKeyDown(Keys.Space))
-            {
-
-            }
-            if(InputManager.GetKeyDown(Keys.Enter))
-            {
-
-            }
-
             InputManager.LateUpdate();
             base.Update(gameTime);
         }
@@ -98,8 +102,9 @@ namespace Nominal
 
             GraphicsDevice.Clear(Color.Black);
 
+            spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp);
             GameObject.DrawObjects(spriteBatch);
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
