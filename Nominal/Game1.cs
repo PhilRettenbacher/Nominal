@@ -37,22 +37,24 @@ namespace Nominal
         {
             base.Initialize();
 
-            Texture2D text = new Texture2D(graphics.GraphicsDevice, 100, 100);
-            Color[] data = new Color[100 * 100];
-            for(int i = 0; i<100*100; i++)
+            Texture2D text = new Texture2D(graphics.GraphicsDevice, 10, 10);
+            Color[] data = new Color[10 * 10];
+            for(int i = 0; i<10*10; i++)
             {
                 data[i] = Color.White;
             }
             text.SetData(data);
-            System.Console.WriteLine(data[345]);
+            System.Console.WriteLine(data[5]);
 
             camGo = new GameObject();
             go = new GameObject();
             camGo.AddComponent<Components.Cam.Camera>();
             SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+            go.AddComponent<TestComponent>();
             rend.texture = text;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 1;
             graphics.ApplyChanges();
         }
 

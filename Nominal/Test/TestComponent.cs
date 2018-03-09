@@ -28,7 +28,7 @@ namespace Nominal.Test
 
         public void Update()
         {
-
+            transform.rotation += Time.deltaTimeUpdate;
         }
 
         public override void OnDestroy()

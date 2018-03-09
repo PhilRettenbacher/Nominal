@@ -32,15 +32,25 @@ namespace Nominal.Components.Cam
         {
             
         }
-        public CameraRect Translate(Transform curr)
+        private DVector2 Translate(Transform curr)
         {
-            //TODO: finish
+            DVector2 pos = Transform.GetRelativePos(curr, transform);
 
-            DVector2 pos = Transform.GetRelativePos(curr, transform)/cameraSize;
-            DVector2 size = curr.size / cameraSize;
+            return pos;
+        }
+        public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, DVector2 position, DVector2 size, double rotation, DVector2 origin)
+        {
+            position /= cameraSize;
+            Vector2 screenSize = new Vector2(spriteBatch.GraphicsDevice.Viewport.Width, spriteBatch.GraphicsDevice.Viewport.Height);
+            Vector2 pos = new Vector2((float)position.X * screenSize.X, (float)position.Y * screenSize.X) + screenSize / 2;
+            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y);
+            spriteBatch.Draw(texture, destination, null, Color.White, (float)rotation, origin.ToVector2(), SpriteEffects.None, 0.0f);
+        }
+        public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, Transform trans)
+        {
+            DVector2 pos = Translate(trans);
+            DrawSprite(spriteBatch, texture, pos, trans.size, trans.rotation, new DVector2(texture.Width/2, texture.Height/2));
 
-            CameraRect rect = new CameraRect(pos, size.X, transform.rotation);
-            return rect;
         }
     }
 }
