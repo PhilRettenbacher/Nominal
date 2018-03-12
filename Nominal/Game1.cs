@@ -32,15 +32,12 @@ namespace Nominal
         /// </summary>
         protected override void Initialize()
         {
-<<<<<<< HEAD
             // TODO: Add your initialization logic here
 
             this.IsMouseVisible = true;
             
             //this.graphics.ApplyChanges();
-
-=======
->>>>>>> 260dbc74a6291480e064c53492d5b2d4bd77d4c8
+            
             base.Initialize();
             go = new GameObject();
 
@@ -103,13 +100,10 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-<<<<<<< HEAD
             GraphicsDevice.Clear(Color.Gray);
-=======
             Time.gameTimeDraw = gameTime;
 
             GraphicsDevice.Clear(Color.Black);
->>>>>>> 260dbc74a6291480e064c53492d5b2d4bd77d4c8
 
             GameObject.DrawObjects(spriteBatch);
 
