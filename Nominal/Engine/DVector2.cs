@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,6 +59,15 @@ namespace Nominal.Engine
         {
             this.X = X;
             this.Y = Y;
+        }
+
+        public Point ToPoint()
+        {
+            return new Point((int)X, (int)Y);
+        }
+        public Vector2 ToVector2()
+        {
+            return new Vector2((float)X, (float)Y);
         }
 
         public static double Distance(DVector2 a, DVector2 b)

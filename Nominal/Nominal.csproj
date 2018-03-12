@@ -42,6 +42,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Cam\Camera.cs" />
+    <Compile Include="Components\Cam\CameraRect.cs" />
+    <Compile Include="Components\SpriteRenderer.cs" />
     <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\Container.cs" />
     <Compile Include="Engine\GameObject.cs" />
