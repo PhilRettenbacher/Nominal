@@ -12,12 +12,23 @@ namespace Nominal.Components.Cam
     class Camera : Component
     {
         public static Camera mainCamera;
-        public static GraphicsDeviceManager graphics;
 
         /// <summary>
-        /// In meters.
+        /// Width in meters.
         /// </summary>
-        public float cameraSize = 1; 
+        public float cameraSize
+        {
+            get
+            {
+                return _cameraSize;
+            }
+            set
+            {
+                if (value > 0)
+                    _cameraSize = value;
+            }
+        }
+        float _cameraSize = 10;
 
         public override void Awake()
         {
@@ -32,7 +43,7 @@ namespace Nominal.Components.Cam
         {
             
         }
-        private DVector2 Translate(Transform curr)
+        /*private DVector2 Translate(Transform curr)
         {
             DVector2 pos = Transform.GetRelativePos(curr, transform);
 
@@ -51,6 +62,6 @@ namespace Nominal.Components.Cam
             DVector2 pos = Translate(trans);
             DrawSprite(spriteBatch, texture, pos, trans.size, trans.rotation, new DVector2(texture.Width/2, texture.Height/2));
 
-        }
+        }*/
     }
 }

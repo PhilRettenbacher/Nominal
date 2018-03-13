@@ -50,6 +50,7 @@ namespace Nominal
             go = new GameObject();
             camGo.AddComponent<Components.Cam.Camera>();
             SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+            rend.normalizeSize = true;
             go.AddComponent<TestComponent>();
             rend.texture = text;
 

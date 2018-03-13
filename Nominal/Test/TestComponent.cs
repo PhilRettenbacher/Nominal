@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nominal.Components.Cam;
 using Nominal.Engine;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Nominal.Test
             Console.WriteLine("Start");
         }
      
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(DrawBuffer drawBuffer)
         {
 
         }
@@ -29,6 +30,7 @@ namespace Nominal.Test
         public void Update()
         {
             transform.rotation += Time.deltaTimeUpdate;
+            Camera.mainCamera.cameraSize += InputManager.mouseDelta*0.01f;
         }
 
         public override void OnDestroy()
