@@ -76,7 +76,8 @@ namespace Nominal.Engine
         {
             if (isDestroyed)
                 return null;
-            var comps = components.Where(x => typeof(T).Equals(x));
+            var comps = components.Where(x => typeof(T).Equals(x.GetType()));
+            System.Console.WriteLine("Comps:" + comps.Count());
             if (comps.Count() > 0)
                 return (T)comps.First();
             else

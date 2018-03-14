@@ -47,6 +47,18 @@ namespace Nominal.Engine
                 return System.Math.Sqrt(X * X + Y * Y);
             }
         }
+        public double angle
+        {
+            get
+            {
+                double a = System.Math.Acos(X/magnitude);
+                if(Y<0)
+                {
+                    a = 2 * System.Math.PI - a;
+                }
+                return a;
+            }
+        }
         public DVector2 normalized
         {
             get

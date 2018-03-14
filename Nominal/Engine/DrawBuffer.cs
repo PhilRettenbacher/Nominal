@@ -24,9 +24,9 @@ namespace Nominal.Engine
         {
             spriteBatch = _spriteBatch;    
         }
-        public void DrawSprite(Texture2D texture, Transform origin, DVector2 offset, DVector2 size, DrawSpace drawSpace, double rotation, Color color)
+        public void DrawSprite(Texture2D texture, Transform origin, DVector2 offset, DVector2 size, DrawSpace drawSpace, double rotation, Vector2 pivot, Color color)
         {
-            buffer.Add(new BufferValue(texture, origin, offset, size, drawSpace, rotation, color));
+            buffer.Add(new BufferValue(texture, origin, offset, size, drawSpace, rotation, pivot, color));
         }
         public void Finish()
         {
@@ -41,7 +41,7 @@ namespace Nominal.Engine
             {
                 Vector2 pos = ((Transform.GetRelativePos(b.origin, main.transform)+b.offset)/main.cameraSize).ToVector2();
                 pos = new Vector2(pos.X * screenSize.X,pos.Y * screenSize.X) + screenSize / 2;
-                Vector2 pivot = new Vector2(b.texture.Width / 2, b.texture.Height / 2);
+                Vector2 pivot = b.pivot;
                 Vector2 size = b.size.ToVector2();
                 if(b.drawSpace==DrawSpace.World)
                 {
@@ -61,9 +61,10 @@ namespace Nominal.Engine
         public DVector2 size;
         public DrawSpace drawSpace;
         public double rotation;
+        public Vector2 pivot;
         public Color color;
 
-        public BufferValue(Texture2D _texture, Transform _origin, DVector2 _offset, DVector2 _size, DrawSpace _drawSpace, double _rotation, Color _color)
+        public BufferValue(Texture2D _texture, Transform _origin, DVector2 _offset, DVector2 _size, DrawSpace _drawSpace, double _rotation, Vector2 _pivot, Color _color)
         {
             texture = _texture;
             origin = _origin;
@@ -71,6 +72,7 @@ namespace Nominal.Engine
             size = _size;
             drawSpace = _drawSpace;
             rotation = _rotation;
+            pivot = _pivot;
             color = _color;
         }
     }

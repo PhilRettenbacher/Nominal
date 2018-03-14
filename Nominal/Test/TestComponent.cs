@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nominal.Components;
 using Nominal.Components.Cam;
 using Nominal.Engine;
 using System;
@@ -29,7 +30,9 @@ namespace Nominal.Test
 
         public void Update()
         {
-            transform.rotation += Time.deltaTimeUpdate;
+            LineRenderer lr = this.gameObject.GetComponent<LineRenderer>();
+            if(lr)
+                lr.points = new DVector2[] { new DVector2(-5, 0), new DVector2(System.Math.Sin(Time.time), System.Math.Cos(Time.time)), new DVector2(5, -5) };
             Camera.mainCamera.cameraSize += InputManager.mouseDelta*0.01f;
         }
 
