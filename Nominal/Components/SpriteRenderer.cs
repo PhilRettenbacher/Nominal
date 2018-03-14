@@ -13,20 +13,39 @@ namespace Nominal.Components
     class SpriteRenderer : Component, Engine.IDrawable
     {
         public Texture2D texture;
+        public Color color = Color.Green;
+        public float unitsPerPixel = 1f;
+        public bool normalizeSize = false;
 
         public override void Awake()
         {
             
         }
         
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(DrawBuffer drawBuffer)
         {
-            if(Camera.mainCamera)
+            DVector2 size = DVector2.zero;
+            if (normalizeSize)
             {
-                //TODO: CLEANUP pls: size is not calculated correctly, make it shorter
-                CameraRect rect = Camera.mainCamera.Translate(transform);
-                spriteBatch.Draw(texture, new Vector2((float)rect.position.X*spriteBatch.GraphicsDevice.Viewport.Width, (float)rect.position.Y*spriteBatch.GraphicsDevice.Viewport.Width)+new Vector2(spriteBatch.GraphicsDevice.Viewport.Width/2, spriteBatch.GraphicsDevice.Viewport.Height/2), null, Color.White, (float)rect.rotation, new Vector2(texture.Width/2, texture.Height/2), (float)rect.size, SpriteEffects.None, 0);
+                Vector2 norm = new Vector2(texture.Width, texture.Height);
+                if (norm.X > norm.Y)
+                {
+                    norm.Y /= norm.X;
+                    norm.X = 1;
+                }
+                else
+                {
+                    norm.X /= norm.Y;
+                    norm.Y = 1;
+                }
+                size = new DVector2(transform.size.X * norm.X, transform.size.Y * norm.Y)*unitsPerPixel;
             }
+            else
+            {
+                size = new DVector2(transform.size.X * texture.Width * unitsPerPixel, transform.size.Y * texture.Height * unitsPerPixel);
+            }
+
+            drawBuffer.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2, texture.Height/2.0f), color);
         }
 
         public override void OnDestroy()

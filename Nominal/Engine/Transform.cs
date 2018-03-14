@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
+    public enum TransformSpace
+    {
+        Local,
+        World
+    }
     public class Transform : Container
     {
         public DVector2 position
