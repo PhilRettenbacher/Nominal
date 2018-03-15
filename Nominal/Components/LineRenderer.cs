@@ -27,7 +27,7 @@ namespace Nominal.Components
             }
         }
         private DVector2[] _points;
-        public double width = 1;
+        public double width = 2f;
 
         private RenderLine[] renderLines;
 
@@ -45,7 +45,7 @@ namespace Nominal.Components
             System.Console.WriteLine(renderLines.Length);
             for(int i = 0; i<renderLines.Length; i++)
             {
-                drawBuffer.DrawSprite(texture, transformSpace == TransformSpace.World ? null : transform, renderLines[i].pos, new DVector2(renderLines[i].scale, width), DrawSpace.World, renderLines[i].rotation, new Vector2(0, ((float)texture.Height)/2f), color);
+                drawBuffer.DrawLine(texture, transformSpace == TransformSpace.Local ? transform : null, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
             }
         }
 

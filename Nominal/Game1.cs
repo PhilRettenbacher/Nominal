@@ -106,10 +106,9 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
             Time.gameTimeDraw = gameTime;
 
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(new Color(0.1f, 0.1f, 0.1f));
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp);
             GameObject.DrawObjects(spriteBatch);

@@ -14,28 +14,70 @@ namespace Nominal.Engine
         World, //size value in meters
         Camera //size value in pixels
     }
+    //Name is slightly misleading, it doesn't actually buffer anything, it's more like a .... draw-helper(?)
     public class DrawBuffer
     {
         List<BufferValue> buffer = new List<BufferValue>();
 
         SpriteBatch spriteBatch;
+        Vector2 screenSize;
+
+        Camera mainCamera;
 
         public DrawBuffer(SpriteBatch _spriteBatch)
         {
-            spriteBatch = _spriteBatch;    
+            spriteBatch = _spriteBatch;
+            screenSize = new Vector2(spriteBatch.GraphicsDevice.Viewport.Width, spriteBatch.GraphicsDevice.Viewport.Height);
+            if (Camera.mainCamera)
+                mainCamera = Camera.mainCamera;
+
         }
         public void DrawSprite(Texture2D texture, Transform origin, DVector2 offset, DVector2 size, DrawSpace drawSpace, double rotation, Vector2 pivot, Color color)
         {
-            buffer.Add(new BufferValue(texture, origin, offset, size, drawSpace, rotation, pivot, color));
+            //buffer.Add(new BufferValue(texture, origin, offset, size, drawSpace, rotation, pivot, color));
+            if (!mainCamera)
+            {
+                System.Console.WriteLine("No Camera");
+                return;
+            }
+            Vector2 pos = ((Transform.GetRelativePos(origin, mainCamera.transform) + offset) / mainCamera.cameraSize).ToVector2();
+            pos = new Vector2(pos.X * screenSize.X, pos.Y * screenSize.X) + screenSize / 2;
+
+
+            if (drawSpace == DrawSpace.World)
+            {
+                size *= screenSize.X / mainCamera.cameraSize;
+            }
+            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y);
+
+            spriteBatch.Draw(texture, destination, null, color, (float)rotation, pivot, SpriteEffects.None, 0.0f);
         }
-        public void Finish()
+        public void DrawLine(Texture2D texture, Transform origin, DVector2 position, double width, double length, double rotation, DrawSpace drawSpace, Color color)
+        {
+            if (!mainCamera)
+            {
+                System.Console.WriteLine("No Camera");
+                return;
+            }
+            Vector2 pos = ((Transform.GetRelativePos(origin, mainCamera.transform) + position) / mainCamera.cameraSize).ToVector2();
+            pos = new Vector2(pos.X * screenSize.X, pos.Y * screenSize.X) + screenSize / 2;
+
+
+            if (drawSpace == DrawSpace.World)
+            {
+                length *= screenSize.X / mainCamera.cameraSize;
+            }
+            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)length, (int)width);
+
+            spriteBatch.Draw(texture, destination, null, color, (float)rotation, new Vector2(0, ((float)texture.Height) / 2f), SpriteEffects.None, 0.0f);
+        }
+        /*public void Finish()
         {
             if (!Camera.mainCamera)
             {
                 System.Console.WriteLine("No Main Camera defined!");
                 return;
             }
-            Vector2 screenSize = new Vector2(spriteBatch.GraphicsDevice.Viewport.Width, spriteBatch.GraphicsDevice.Viewport.Height);
             Camera main = Camera.mainCamera;
             foreach(BufferValue b in buffer)
             {
@@ -51,7 +93,7 @@ namespace Nominal.Engine
 
                 spriteBatch.Draw(b.texture, destination, null, b.color, (float)b.rotation, pivot, SpriteEffects.None, 0.0f);
             }
-        }
+        }*/
     }
     class BufferValue
     {
