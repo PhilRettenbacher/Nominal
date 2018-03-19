@@ -49,6 +49,14 @@ namespace Nominal.OrbitalMechanics
         private double gravParameter;
         private double meanMotion;
 
+        private double fullRotation
+        {
+            get
+            {
+                return _trueAnomaly + _argumentOfPeriapsis;
+            }
+        }
+
         public double periapsis
         {
             get
@@ -116,7 +124,7 @@ namespace Nominal.OrbitalMechanics
             _apoapsis = _semiMajorAxis * (1 + _eccentricity);
             _radius = _semiMajorAxis * (1 - Math.Pow(_eccentricity, 2)) / (1 + _eccentricity * System.Math.Cos(_trueAnomaly));
 
-            flightPathAngle = Math.Atan(eccentricity * Math.Sin(trueAnomaly) / (1 + eccentricity * Math.Cos(trueAnomaly)));
+            flightPathAngle = Math.Atan(_eccentricity * Math.Sin(_trueAnomaly) / (1 + _eccentricity * Math.Cos(_trueAnomaly)));
             _velocity = (Math.Sqrt(gravParameter * (2 / _radius - 1 / _semiMajorAxis)));
         }
     }
