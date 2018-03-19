@@ -40,7 +40,7 @@ namespace Nominal.Components
 
         }
 
-        public void Draw(DrawBuffer drawBuffer)
+        public void Draw(DrawHelper drawBuffer)
         {
             System.Console.WriteLine(renderLines.Length);
             for(int i = 0; i<renderLines.Length; i++)

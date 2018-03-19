@@ -22,7 +22,7 @@ namespace Nominal.Components
             
         }
         
-        public void Draw(DrawBuffer drawBuffer)
+        public void Draw(DrawHelper drawBuffer)
         {
             DVector2 size = DVector2.zero;
             if (normalizeSize)

@@ -47,37 +47,34 @@ namespace Nominal.OrbitalMechanics
 
         private double meanAnomaly;
         private double gravParameter;
-
-        public Orbit(double semiMajorAxis, double eccentricity, double argumentOfPeriapsis, double gravParameter)
-        {
-            _semiMajorAxis = semiMajorAxis;
-            _eccentricity = eccentricity;
-            _argumentOfPeriapsis = argumentOfPeriapsis;
-            this.gravParameter = gravParameter;
-        }
+        private double meanMotion;
 
         public double periapsis
         {
             get
             {
-                return _semiMajorAxis * (1 - _eccentricity);
+                return _periapsis;
             }
         }
+        private double _periapsis;
         public double apoapsis
         {
             get
             {
-                return _semiMajorAxis * (1 + _eccentricity);
+                return _apoapsis;
             }
         }
+        private double _apoapsis;
+
         public double radius
         {
             get
             {
-                return _semiMajorAxis * (1 - System.Math.Pow(_eccentricity, 2)) / (1 + _eccentricity * System.Math.Cos(_trueAnomaly));
+                return _radius;
             }
         }
-        public DVector2 positionVector
+        private double _radius;
+        public DVector2 position
         {
             get
             {
@@ -89,10 +86,10 @@ namespace Nominal.OrbitalMechanics
         {
             get
             {
-                //TODO
-                return 0;
+                return _velocity;
             }
         }
+        private double _velocity;
         public DVector2 velocityVector
         {
             get
@@ -100,6 +97,27 @@ namespace Nominal.OrbitalMechanics
                 //TODO
                 return DVector2.zero;
             }
+        }
+        private double flightPathAngle;
+
+        public Orbit(double semiMajorAxis, double eccentricity, double argumentOfPeriapsis, double gravParameter, double meanAnomaly)
+        {
+            _semiMajorAxis = semiMajorAxis;
+            _eccentricity = eccentricity;
+            _argumentOfPeriapsis = argumentOfPeriapsis;
+            this.gravParameter = gravParameter;
+
+            this.meanAnomaly = meanAnomaly;
+            _trueAnomaly = OrbitMath.ConvertMeanToTrueElliptic(this.meanAnomaly, _eccentricity);
+
+            meanMotion = System.Math.Sqrt(gravParameter / System.Math.Pow(_semiMajorAxis, 3));
+
+            _periapsis = _semiMajorAxis * (1 - _eccentricity);
+            _apoapsis = _semiMajorAxis * (1 + _eccentricity);
+            _radius = _semiMajorAxis * (1 - Math.Pow(_eccentricity, 2)) / (1 + _eccentricity * System.Math.Cos(_trueAnomaly));
+
+            flightPathAngle = Math.Atan(eccentricity * Math.Sin(trueAnomaly) / (1 + eccentricity * Math.Cos(trueAnomaly)));
+            _velocity = (Math.Sqrt(gravParameter * (2 / _radius - 1 / _semiMajorAxis)));
         }
     }
 }
