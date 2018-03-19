@@ -86,8 +86,7 @@ namespace Nominal.OrbitalMechanics
         {
             get
             {
-                //TODO
-                return DVector2.zero;
+                return (new DVector2(_radius, 0)).Rotate(fullRotation);
             }
         }
         public double velocity
@@ -122,10 +121,19 @@ namespace Nominal.OrbitalMechanics
 
             _periapsis = _semiMajorAxis * (1 - _eccentricity);
             _apoapsis = _semiMajorAxis * (1 + _eccentricity);
-            _radius = _semiMajorAxis * (1 - Math.Pow(_eccentricity, 2)) / (1 + _eccentricity * System.Math.Cos(_trueAnomaly));
+            _radius = OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, _trueAnomaly);
 
-            flightPathAngle = Math.Atan(_eccentricity * Math.Sin(_trueAnomaly) / (1 + _eccentricity * Math.Cos(_trueAnomaly)));
-            _velocity = (Math.Sqrt(gravParameter * (2 / _radius - 1 / _semiMajorAxis)));
+            flightPathAngle = OrbitMath.CalculateFlightpathAngle(_eccentricity, _trueAnomaly);
+            _velocity = OrbitMath.CalculateVelocity(this.gravParameter, _radius, _semiMajorAxis);
+        }
+        public void UpdateOrbit(double deltaTime)
+        {
+            meanAnomaly += meanMotion * deltaTime;
+            _trueAnomaly = OrbitMath.ConvertMeanToTrueElliptic(meanAnomaly, _eccentricity);
+            _radius = OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, _trueAnomaly);
+
+            flightPathAngle = OrbitMath.CalculateFlightpathAngle(_eccentricity, _trueAnomaly);
+            _velocity = OrbitMath.CalculateVelocity(this.gravParameter, _radius, _semiMajorAxis);
         }
     }
 }

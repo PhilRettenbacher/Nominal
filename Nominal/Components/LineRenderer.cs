@@ -42,7 +42,6 @@ namespace Nominal.Components
 
         public void Draw(DrawHelper drawBuffer)
         {
-            System.Console.WriteLine(renderLines.Length);
             for(int i = 0; i<renderLines.Length; i++)
             {
                 drawBuffer.DrawLine(texture, transformSpace == TransformSpace.Local ? transform : null, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);

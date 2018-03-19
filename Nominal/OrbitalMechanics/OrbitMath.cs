@@ -49,5 +49,17 @@ namespace Nominal.OrbitalMechanics
             return v;
         }
 
+        public static double CalculateRadius(double semiMajorAxis, double eccentricity, double trueAnomaly)
+        {
+            return semiMajorAxis * (1 - Math.Pow(eccentricity, 2)) / (1 + eccentricity * Math.Cos(trueAnomaly));
+        }
+        public static double CalculateFlightpathAngle(double eccentricity, double trueAnomaly)
+        {
+            return Math.Atan(eccentricity * Math.Sin(trueAnomaly) / (1 + eccentricity * Math.Cos(trueAnomaly)));
+        }
+        public static double CalculateVelocity(double gravParameter, double radius, double semiMajorAxis)
+        {
+            return (Math.Sqrt(gravParameter * (2 / radius - 1 / semiMajorAxis)));
+        }
     }
 }

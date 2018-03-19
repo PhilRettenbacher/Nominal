@@ -97,7 +97,6 @@ namespace Nominal.Engine
 
         protected override void Destroy()
         {
-            System.Console.WriteLine("BeforeGO " + (gameObject==null));
             if (gameObject)
             {             
                 Destroy(gameObject);
