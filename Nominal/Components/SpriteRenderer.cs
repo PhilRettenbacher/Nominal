@@ -45,7 +45,7 @@ namespace Nominal.Components
                 size = new DVector2(transform.size.X * texture.Width * unitsPerPixel, transform.size.Y * texture.Height * unitsPerPixel);
             }
 
-            drawBuffer.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2, texture.Height/2.0f), color);
+            drawBuffer.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2.0f, texture.Height/2.0f), color);
         }
 
         public override void OnDestroy()

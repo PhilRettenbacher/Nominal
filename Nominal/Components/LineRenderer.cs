@@ -27,7 +27,7 @@ namespace Nominal.Components
             }
         }
         private DVector2[] _points;
-        public double width = 2f;
+        public double width = 3;
 
         private RenderLine[] renderLines;
 

@@ -54,9 +54,11 @@ namespace Nominal
             camGo = new GameObject();
             go = new GameObject();
             camGo.AddComponent<Components.Cam.Camera>();
-            LineRenderer rend = go.AddComponent<LineRenderer>();
+            SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+            LineRenderer lr = go.AddComponent<LineRenderer>();
+            lr.texture = text;
+            lr.transformSpace = TransformSpace.World;
             rend.texture = text;
-            rend.points = new DVector2[] { new DVector2(0, 0), new DVector2(5, 0), new DVector2(5, -5) };
             go.AddComponent<TestComponent>();
 
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;

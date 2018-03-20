@@ -45,6 +45,15 @@ namespace Nominal.OrbitalMechanics
         }
         private double _argumentOfPeriapsis;
 
+        public bool prograde
+        {
+            get
+            {
+                return _prograde;
+            }
+        }
+        private bool _prograde;
+
         private double meanAnomaly;
         private double gravParameter;
         private double meanMotion;
@@ -53,7 +62,7 @@ namespace Nominal.OrbitalMechanics
         {
             get
             {
-                return _trueAnomaly + _argumentOfPeriapsis;
+                return OrbitMath.ReduceAngle(_trueAnomaly*(_prograde?-1:1) + _argumentOfPeriapsis);
             }
         }
 
@@ -107,12 +116,14 @@ namespace Nominal.OrbitalMechanics
         }
         private double flightPathAngle;
 
-        public Orbit(double semiMajorAxis, double eccentricity, double argumentOfPeriapsis, double gravParameter, double meanAnomaly)
+        public Orbit(double semiMajorAxis, double eccentricity, double argumentOfPeriapsis, double gravParameter, double meanAnomaly, bool prograde)
         {
             _semiMajorAxis = semiMajorAxis;
             _eccentricity = eccentricity;
             _argumentOfPeriapsis = argumentOfPeriapsis;
             this.gravParameter = gravParameter;
+
+            _prograde = prograde;
 
             this.meanAnomaly = meanAnomaly;
             _trueAnomaly = OrbitMath.ConvertMeanToTrueElliptic(this.meanAnomaly, _eccentricity);
@@ -129,11 +140,25 @@ namespace Nominal.OrbitalMechanics
         public void UpdateOrbit(double deltaTime)
         {
             meanAnomaly += meanMotion * deltaTime;
+            meanAnomaly = OrbitMath.ReduceAngle(meanAnomaly);
             _trueAnomaly = OrbitMath.ConvertMeanToTrueElliptic(meanAnomaly, _eccentricity);
             _radius = OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, _trueAnomaly);
 
             flightPathAngle = OrbitMath.CalculateFlightpathAngle(_eccentricity, _trueAnomaly);
             _velocity = OrbitMath.CalculateVelocity(this.gravParameter, _radius, _semiMajorAxis);
+        }
+        public DVector2[] GetSubsets(int count, bool includeFirst = false)
+        {
+            DVector2[] subsets = new DVector2[count];
+            double step = 2 * Math.PI / ((double)count - (includeFirst?1:0));
+            for(int i = 0; i< count - (includeFirst ? 1 : 0); i++)
+            {
+                DVector2 pos = new DVector2(OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, OrbitMath.ConvertTrueToMeanElliptic(step*(double)i, _eccentricity)), 0).Rotate(OrbitMath.ReduceAngle(_argumentOfPeriapsis+ OrbitMath.ConvertTrueToMeanElliptic(step * (double)i, _eccentricity)));
+                subsets[i] = pos;
+            }
+            if (includeFirst)
+                subsets[--count] = subsets[0];
+            return subsets;
         }
     }
 }

@@ -61,5 +61,13 @@ namespace Nominal.OrbitalMechanics
         {
             return (Math.Sqrt(gravParameter * (2 / radius - 1 / semiMajorAxis)));
         }
+        public static double ReduceAngle(double angle)
+        {
+            if(angle < 0)
+            {
+                return 2*Math.PI-(angle % (2 * Math.PI))*-1;
+            }
+            return angle%(2*Math.PI);
+        }
     }
 }
