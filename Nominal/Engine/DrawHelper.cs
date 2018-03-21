@@ -65,7 +65,7 @@ namespace Nominal.Engine
             {
                 length *= screenSize.X / mainCamera.cameraSize;
             }
-            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)length, (int)width);
+            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)Math.Ceiling(length), (int)Math.Ceiling(width));
 
             spriteBatch.Draw(texture, destination, null, color, (float)rotation, new Vector2(0, ((float)texture.Height) / 2f), SpriteEffects.None, 0.0f);
         }

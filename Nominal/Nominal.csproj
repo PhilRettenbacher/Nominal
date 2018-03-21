@@ -47,7 +47,7 @@
     <Compile Include="Components\SpriteRenderer.cs" />
     <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\Container.cs" />
-    <Compile Include="Engine\DrawBuffer.cs" />
+    <Compile Include="Engine\DrawHelper.cs" />
     <Compile Include="Engine\GameObject.cs" />
     <Compile Include="Engine\IDrawable.cs" />
     <Compile Include="Engine\InputManager.cs" />

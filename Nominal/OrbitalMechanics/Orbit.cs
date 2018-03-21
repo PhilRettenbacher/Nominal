@@ -153,7 +153,7 @@ namespace Nominal.OrbitalMechanics
             double step = 2 * Math.PI / ((double)count - (includeFirst?1:0));
             for(int i = 0; i< count - (includeFirst ? 1 : 0); i++)
             {
-                DVector2 pos = new DVector2(OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, OrbitMath.ConvertTrueToMeanElliptic(step*(double)i, _eccentricity)), 0).Rotate(OrbitMath.ReduceAngle(_argumentOfPeriapsis+ OrbitMath.ConvertTrueToMeanElliptic(step * (double)i, _eccentricity)));
+                DVector2 pos = new DVector2(OrbitMath.CalculateRadius(_semiMajorAxis, _eccentricity, step*(double)i), 0).Rotate(OrbitMath.ReduceAngle(_argumentOfPeriapsis + step * (double)i));
                 subsets[i] = pos;
             }
             if (includeFirst)
