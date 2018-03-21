@@ -19,7 +19,7 @@ namespace Nominal.Test
 
         public override void Awake()
         {
-            o = new Orbit(4, 0.1, 1, 200, 0, true);
+            o = new Orbit(4, 0.8, 0, 200, 0, true);
         }
         public override void Start()
         {
@@ -42,6 +42,7 @@ namespace Nominal.Test
             lr.points = new DVector2[] { DVector2.zero, o.position };
             transform.position = o.position;
             Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
+            transform.rotation += Time.deltaTimeUpdate * 2;
         }
 
         public override void OnDestroy()

@@ -41,14 +41,13 @@ namespace Nominal.Engine
             Vector2 pos = ((Transform.GetRelativePos(origin, mainCamera.transform) + offset) / mainCamera.cameraSize).ToVector2();
             pos = new Vector2(pos.X * screenSize.X, pos.Y * screenSize.X) + screenSize / 2;
 
-
             if (drawSpace == DrawSpace.World)
             {
                 size *= screenSize.X / mainCamera.cameraSize;
             }
-            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y);
+            Rectangle destination = new Rectangle((int)pos.X, (int)screenSize.Y-(int)pos.Y, (int)size.X, (int)size.Y);
 
-            spriteBatch.Draw(texture, destination, null, color, (float)rotation, pivot, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(texture, destination, null, color, -(float)rotation, pivot, SpriteEffects.None, 0.0f);
         }
         public void DrawLine(Texture2D texture, Transform origin, DVector2 position, double width, double length, double rotation, DrawSpace drawSpace, Color color)
         {
@@ -60,14 +59,13 @@ namespace Nominal.Engine
             Vector2 pos = ((Transform.GetRelativePos(origin, mainCamera.transform) + position) / mainCamera.cameraSize).ToVector2();
             pos = new Vector2(pos.X * screenSize.X, pos.Y * screenSize.X) + screenSize / 2;
 
-
             if (drawSpace == DrawSpace.World)
             {
                 length *= screenSize.X / mainCamera.cameraSize;
             }
-            Rectangle destination = new Rectangle((int)pos.X, (int)pos.Y, (int)Math.Ceiling(length), (int)Math.Ceiling(width));
+            Rectangle destination = new Rectangle((int)pos.X, (int)screenSize.Y-(int)pos.Y, (int)Math.Ceiling(length), (int)Math.Ceiling(width));
 
-            spriteBatch.Draw(texture, destination, null, color, (float)rotation, new Vector2(0, ((float)texture.Height) / 2f), SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(texture, destination, null, color, -(float)rotation, new Vector2(0, ((float)texture.Height) / 2f), SpriteEffects.None, 0.0f);
         }
     }
 }

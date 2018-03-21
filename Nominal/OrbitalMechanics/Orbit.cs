@@ -62,7 +62,7 @@ namespace Nominal.OrbitalMechanics
         {
             get
             {
-                return OrbitMath.ReduceAngle(_trueAnomaly*(_prograde?-1:1) + _argumentOfPeriapsis);
+                return OrbitMath.ReduceAngle(_trueAnomaly*(_prograde?1:-1) + _argumentOfPeriapsis);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Nominal.OrbitalMechanics
             get
             {
                 //TODO
-                return DVector2.zero;
+                return null;
             }
         }
         private double flightPathAngle;
