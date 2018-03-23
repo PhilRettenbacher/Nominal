@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nominal.Components.Cam
 {
-    class Camera : Component
+    class Camera : Component, IUniqueComponent
     {
         public static Camera mainCamera;
 

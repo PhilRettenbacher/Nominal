@@ -9,17 +9,13 @@ using Microsoft.Xna.Framework;
 
 namespace Nominal.Components
 {
-    public class LineRenderer : Component, Engine.IDrawable
+    public class LineRenderer : Component, Engine.IDrawable, IUniqueComponent
     {
         public Transform target;
         public Texture2D texture;
         public Color color = Color.White;
         public DVector2[] points
         {
-            get
-            {
-                return _points;
-            }
             set
             {
                 _points = value;
@@ -53,8 +49,15 @@ namespace Nominal.Components
             
         }
 
+        public void SetPointAt(DVector2 value, int index)
+        {
+            _points[index] = value;
+            RecalculateLines();
+        }
         private void RecalculateLines()
         {
+            if (_points.Length == 0)
+                return;
             renderLines = new RenderLine[_points.Length-1];
             for(int i = 0; i<renderLines.Length; i++)
             {

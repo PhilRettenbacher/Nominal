@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace Nominal.Components
 {
-    class SpriteRenderer : Component, Engine.IDrawable
+    class SpriteRenderer : Component, Engine.IDrawable, IUniqueComponent
     {
         public Texture2D texture;
         public Color color = Color.Green;

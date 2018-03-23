@@ -65,7 +65,16 @@ namespace Nominal.Engine
         {
             if (isDestroyed)
                 return null;
+           
             T component = new T();
+            if(((Component)component) is IUniqueComponent)
+            {
+                if(GetComponent<T>())
+                {
+                    System.Console.WriteLine("There already exists a Component of Type " + typeof(T) + " on this Object!");
+                    return null;
+                }
+            }
             component.gameObject = this;
             component.transform = transform;
             components.Add(component);

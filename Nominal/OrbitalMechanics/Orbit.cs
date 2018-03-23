@@ -147,7 +147,7 @@ namespace Nominal.OrbitalMechanics
             flightPathAngle = OrbitMath.CalculateFlightpathAngle(_eccentricity, _trueAnomaly);
             _velocity = OrbitMath.CalculateVelocity(this.gravParameter, _radius, _semiMajorAxis);
         }
-        public DVector2[] GetSubsets(int count, bool includeFirst = false)
+        public DVector2[] GetSubsets(int count, bool includeFirst = true)
         {
             DVector2[] subsets = new DVector2[count];
             double step = 2 * Math.PI / ((double)count - (includeFirst?1:0));

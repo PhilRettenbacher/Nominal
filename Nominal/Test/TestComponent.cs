@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Nominal.Components;
 using Nominal.Components.Cam;
+using Nominal.Components.Orbital;
 using Nominal.Engine;
 using Nominal.OrbitalMechanics;
 using System;
@@ -15,20 +16,15 @@ namespace Nominal.Test
     class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {
         Orbit o;
-        LineRenderer lr;
 
         public override void Awake()
         {
-            o = new Orbit(4, 0.8, 0, 200, 0, true);
+            o = new Orbit(5, 0.2, 2, 200, 2, true);
         }
         public override void Start()
         {
-            gameObject.GetComponent<LineRenderer>().points = o.GetSubsets(200, true);
-            Texture2D tex = gameObject.GetComponent<LineRenderer>().texture;
-            lr = gameObject.AddComponent<LineRenderer>();
-            lr.texture = tex;
-            lr.color = Color.Red;
-            lr.target = transform.parent;
+            OrbitLines ol = gameObject.AddComponent<OrbitLines>();
+            ol.SetOrbit(o);
         }
      
         public void Draw(DrawHelper drawBuffer)
@@ -39,8 +35,7 @@ namespace Nominal.Test
         public void Update()
         {
             o.UpdateOrbit(Time.deltaTimeUpdate);
-            lr.points = new DVector2[] { DVector2.zero, o.position };
-            transform.position = o.position;
+            transform.localPosition = o.position;
             Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
             transform.rotation += Time.deltaTimeUpdate * 2;
         }

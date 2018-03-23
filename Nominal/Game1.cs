@@ -61,6 +61,15 @@ namespace Nominal
             rend.texture = text;
             go.AddComponent<TestComponent>();
 
+            GameObject go1 = new GameObject();
+            SpriteRenderer rend1 = go1.AddComponent<SpriteRenderer>();
+            LineRenderer lr1 = go1.AddComponent<LineRenderer>();
+            lr1.texture = text;
+            lr1.target = null;
+            rend1.texture = text;
+            go1.AddComponent<TestComponent>();
+            go1.transform.parent = go.transform;
+
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 1;
             graphics.ApplyChanges();
