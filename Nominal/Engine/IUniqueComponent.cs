@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public interface IDestroyable
+    public interface IUniqueComponent
     {
-        void Destroy();
     }
 }

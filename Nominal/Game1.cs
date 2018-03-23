@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Nominal.Components;
 using Nominal.Engine;
 using Nominal.Test;
+using System.Linq;
 
 namespace Nominal
 {
@@ -15,7 +17,7 @@ namespace Nominal
         SpriteBatch spriteBatch;
 
         GameObject go;
-        GameObject go2;
+        GameObject camGo;
 
         public Game1()
         {
@@ -33,18 +35,32 @@ namespace Nominal
         /// </summary>
         protected override void Initialize()
         {
+            // TODO: Add your initialization logic here
+
+            this.IsMouseVisible = true;
+            
+            //this.graphics.ApplyChanges();
+            
             base.Initialize();
+
+            Assets.Initialize(graphics.GraphicsDevice);
+
+            camGo = new GameObject();
             go = new GameObject();
+            camGo.AddComponent<Components.Cam.Camera>();
+            SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
 
-            go2 = new GameObject();
-            TestComponent tc = go2.AddComponent<TestComponent>();
-            go2.parent = go;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 2;
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 2;
+            go.AddComponent<TestComponent>();
 
+            GameObject go1 = new GameObject();
+            SpriteRenderer rend1 = go1.AddComponent<SpriteRenderer>();
+
+            go1.AddComponent<TestComponent>();
+            go1.transform.parent = go.transform;
+
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 1;
             graphics.ApplyChanges();
-
-            System.Console.WriteLine("TestComponent: " + (tc==true));
         }
 
         /// <summary>
@@ -79,15 +95,6 @@ namespace Nominal
 
             GameObject.UpdateObjects();
 
-            if(InputManager.GetKeyDown(Keys.Space))
-            {
-                go2.enabled = !go2.enabled;
-            }
-            if(InputManager.GetKeyDown(Keys.Enter))
-            {
-                go2.Destroy();
-            }
-
             InputManager.LateUpdate();
             base.Update(gameTime);
         }
@@ -100,10 +107,11 @@ namespace Nominal
         {
             Time.gameTimeDraw = gameTime;
 
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(new Color(0.1f, 0.1f, 0.1f));
 
+            spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp);
             GameObject.DrawObjects(spriteBatch);
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

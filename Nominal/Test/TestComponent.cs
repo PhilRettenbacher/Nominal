@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Nominal.Components;
+using Nominal.Components.Cam;
+using Nominal.Components.Orbital;
 using Nominal.Engine;
+using Nominal.OrbitalMechanics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,40 +15,34 @@ namespace Nominal.Test
 {
     class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {
+        Orbit o;
 
         public override void Awake()
         {
-
+            o = new Orbit(5, 0.8, 2, 200, 2, true);
         }
         public override void Start()
         {
-
+            OrbitLines ol = gameObject.AddComponent<OrbitLines>();
+            ol.SetOrbit(o);
         }
-
-
-        public override void OnDestroy()
+     
+        public void Draw(DrawHelper drawBuffer)
         {
-            System.Console.WriteLine("Destroyed");
-        }
-        public override void OnDisable()
-        {
-            System.Console.WriteLine("Disabled");
-        }
-        public override void OnEnable()
-        {
-            System.Console.WriteLine("Enabled");
-        }
 
-
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            System.Console.WriteLine("Draw: " + Time.deltaTimeDraw + " : " + Time.time);
         }
 
         public void Update()
         {
-            System.Console.WriteLine("Update: " + Time.deltaTimeUpdate + " : " + Time.time);
+            o.UpdateOrbit(Time.deltaTimeUpdate);
+            transform.localPosition = o.position;
+            Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
+            transform.rotation += Time.deltaTimeUpdate * 2;
+        }
+
+        public override void OnDestroy()
+        {
+
         }
     }
 }

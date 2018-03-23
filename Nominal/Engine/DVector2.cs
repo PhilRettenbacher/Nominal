@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,18 @@ namespace Nominal.Engine
                 return System.Math.Sqrt(X * X + Y * Y);
             }
         }
+        public double angle
+        {
+            get
+            {
+                double a = System.Math.Acos(X/magnitude);
+                if(Y<0)
+                {
+                    a = 2 * System.Math.PI - a;
+                }
+                return a;
+            }
+        }
         public DVector2 normalized
         {
             get
@@ -58,6 +71,20 @@ namespace Nominal.Engine
         {
             this.X = X;
             this.Y = Y;
+        }
+
+        public Point ToPoint()
+        {
+            return new Point((int)X, (int)Y);
+        }
+        public Vector2 ToVector2()
+        {
+            return new Vector2((float)X, (float)Y);
+        }
+
+        public DVector2 Rotate(double angle)
+        {
+            return new DVector2(System.Math.Cos(angle) * X - System.Math.Sin(angle) * Y, System.Math.Sin(angle) * X + System.Math.Cos(angle) * Y);
         }
 
         public static double Distance(DVector2 a, DVector2 b)

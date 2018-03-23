@@ -6,43 +6,29 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public abstract class Object : IDestroyable
+    public abstract class Object
     {
-        public bool enabled
+        private bool destroyed;
+
+        public bool isDestroyed
         {
             get
             {
-                if (destroyed)
-                    return false;
-                return _enabled;
-            }
-            set
-            {
-                if (destroyed)
-                    return;
-                if (value != _enabled)
-                {
-                    _enabled = value;
-                    if (value)
-                    {
-                        OnEnable();
-                    }
-                    else
-                    {
-                        OnDisable();
-                    }
-                }
+                return destroyed;
             }
         }
-        private bool _enabled = true;
-        protected bool destroyed;
 
-        abstract public void OnEnable();
-        abstract public void OnDisable();
-
-        public virtual void Destroy()
+        protected virtual void Destroy()
         {
             destroyed = true;
+        }
+        public static void Destroy(Object toDestroy)
+        {
+            toDestroy.Destroy();
+        }
+        public static implicit operator bool(Object gameObject)
+        {
+            return gameObject == null ? false : !gameObject.destroyed;
         }
     }
 }
