@@ -19,7 +19,7 @@ namespace Nominal.Components
 
         public override void Awake()
         {
-            
+            texture = Assets.GetTexture("placeholder001");
         }
         
         public void Draw(DrawHelper drawBuffer)

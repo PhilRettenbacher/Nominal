@@ -43,30 +43,18 @@ namespace Nominal
             
             base.Initialize();
 
-            Texture2D text = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            Color[] data = new Color[1];
-            for(int i = 0; i<1; i++)
-            {
-                data[i] = Color.White;
-            }
-            text.SetData(data);
+            Assets.Initialize(graphics.GraphicsDevice);
 
             camGo = new GameObject();
             go = new GameObject();
             camGo.AddComponent<Components.Cam.Camera>();
             SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
-            LineRenderer lr = go.AddComponent<LineRenderer>();
-            lr.texture = text;
-            lr.target = null;
-            rend.texture = text;
+
             go.AddComponent<TestComponent>();
 
             GameObject go1 = new GameObject();
             SpriteRenderer rend1 = go1.AddComponent<SpriteRenderer>();
-            LineRenderer lr1 = go1.AddComponent<LineRenderer>();
-            lr1.texture = text;
-            lr1.target = null;
-            rend1.texture = text;
+
             go1.AddComponent<TestComponent>();
             go1.transform.parent = go.transform;
 

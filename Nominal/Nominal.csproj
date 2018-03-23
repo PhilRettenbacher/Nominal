@@ -46,6 +46,7 @@
     <Compile Include="Components\LineRenderer.cs" />
     <Compile Include="Components\Orbital\OrbitLines.cs" />
     <Compile Include="Components\SpriteRenderer.cs" />
+    <Compile Include="Engine\Assets.cs" />
     <Compile Include="Engine\Component.cs" />
     <Compile Include="Engine\Container.cs" />
     <Compile Include="Engine\DrawHelper.cs" />

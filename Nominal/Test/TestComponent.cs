@@ -19,7 +19,7 @@ namespace Nominal.Test
 
         public override void Awake()
         {
-            o = new Orbit(5, 0.2, 2, 200, 2, true);
+            o = new Orbit(5, 0.8, 2, 200, 2, true);
         }
         public override void Start()
         {

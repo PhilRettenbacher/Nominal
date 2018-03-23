@@ -29,7 +29,7 @@ namespace Nominal.Components
 
         public override void Awake()
         {
-            
+            texture = Assets.GetTexture("placeholder001");
         }
         public override void Start()
         {
