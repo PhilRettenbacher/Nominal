@@ -11,7 +11,7 @@ namespace Nominal.Components
 {
     public class LineRenderer : Component, Engine.IDrawable
     {
-        public TransformSpace transformSpace = TransformSpace.Local;
+        public Transform target;
         public Texture2D texture;
         public Color color = Color.White;
         public DVector2[] points
@@ -44,7 +44,7 @@ namespace Nominal.Components
         {
             for(int i = 0; i<renderLines.Length; i++)
             {
-                drawBuffer.DrawLine(texture, transformSpace == TransformSpace.Local ? transform : null, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
+                drawBuffer.DrawLine(texture, target, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
             }
         }
 

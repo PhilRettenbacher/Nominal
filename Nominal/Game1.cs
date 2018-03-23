@@ -57,7 +57,7 @@ namespace Nominal
             SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
             LineRenderer lr = go.AddComponent<LineRenderer>();
             lr.texture = text;
-            lr.transformSpace = TransformSpace.World;
+            lr.target = null;
             rend.texture = text;
             go.AddComponent<TestComponent>();
 

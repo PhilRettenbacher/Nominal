@@ -28,7 +28,7 @@ namespace Nominal.Test
             lr = gameObject.AddComponent<LineRenderer>();
             lr.texture = tex;
             lr.color = Color.Red;
-            lr.transformSpace = TransformSpace.World;
+            lr.target = transform.parent;
         }
      
         public void Draw(DrawHelper drawBuffer)
