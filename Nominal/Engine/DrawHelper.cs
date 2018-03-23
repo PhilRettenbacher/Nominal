@@ -15,6 +15,7 @@ namespace Nominal.Engine
         Camera //size value in pixels
     }
     //Name is slightly misleading, it doesn't actually buffer anything, it's more like a .... draw-helper(?) EDIT: Now it is not misleading anymore, yay
+    //Edit: variables are still named drawBuffer... still misleading
     public class DrawHelper
     {
 

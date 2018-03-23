@@ -58,8 +58,8 @@ namespace Nominal
             go1.AddComponent<TestComponent>();
             go1.transform.parent = go.transform;
 
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 1;
+            graphics.PreferredBackBufferHeight = (int)(GraphicsDevice.DisplayMode.Height / 1.5);
+            graphics.PreferredBackBufferWidth = (int)(GraphicsDevice.DisplayMode.Width / 1.5);
             graphics.ApplyChanges();
         }
 

@@ -122,6 +122,7 @@ namespace Nominal.Engine
 
         private void Update()
         {
+            //Initialize uninitialized components
             components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
             components.Where(x => x is IUpdateable).ToList().ForEach(x => ((IUpdateable)x).Update());
         }
@@ -150,8 +151,8 @@ namespace Nominal.Engine
         }
         public static void DrawObjects(SpriteBatch spriteBatch)
         {
-            DrawHelper drawBuffer = new DrawHelper(spriteBatch);
-            objects.ForEach(x => x.Draw(drawBuffer));
+            DrawHelper drawHelper = new DrawHelper(spriteBatch);
+            objects.ForEach(x => x.Draw(drawHelper));
             //drawBuffer.Finish();
         }
         #endregion
