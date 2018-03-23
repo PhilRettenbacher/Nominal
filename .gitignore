@@ -54,4 +54,4 @@ monodroid*.msi
 *~
 
 #Macht Probleme
-.vs/Nominal/v15/Server/sqlite3/db.lock
+.vs/Nominal/v15/Server/sqlite3/*
