@@ -31,11 +31,12 @@ namespace Nominal.Components
         {
             texture = Assets.GetTexture("placeholder001");
         }
+        /*
         public override void Start()
         {
 
         }
-
+        */
         public void Draw(DrawHelper drawBuffer)
         {
             for(int i = 0; i<renderLines.Length; i++)
@@ -43,12 +44,12 @@ namespace Nominal.Components
                 drawBuffer.DrawLine(texture, target, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
             }
         }
-
+        /*
         public override void OnDestroy()
         {
             
         }
-
+        */
         public void SetPointAt(DVector2 value, int index)
         {
             _points[index] = value;

@@ -39,10 +39,11 @@ namespace Nominal.Test
             Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
             transform.rotation += Time.deltaTimeUpdate * 2;
         }
-
+        /*
         public override void OnDestroy()
         {
 
         }
+        */
     }
 }

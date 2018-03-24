@@ -47,7 +47,7 @@ namespace Nominal.Components
 
             drawHelper.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2.0f, texture.Height/2.0f), color);
         }
-
+        /*
         public override void OnDestroy()
         {
             
@@ -56,5 +56,6 @@ namespace Nominal.Components
         {
             
         }
+        */
     }
 }

@@ -122,7 +122,6 @@ namespace Nominal.Engine
 
         private void Update()
         {
-            //Initialize uninitialized components
             components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
             components.Where(x => x is IUpdateable).ToList().ForEach(x => ((IUpdateable)x).Update());
         }
@@ -136,13 +135,11 @@ namespace Nominal.Engine
 
         public static IEnumerable<GameObject> FindObjects(string name)
         {
-            //TODO
-            return null;
+            return objects.Where(x => x.name.Equals(name));
         }
         public static GameObject FindObject(string name)
         {
-            //TODO
-            return null;
+            return objects.Find(x => x.name.Equals(name));
         }
 
         public static void UpdateObjects()
@@ -153,7 +150,7 @@ namespace Nominal.Engine
         {
             DrawHelper drawHelper = new DrawHelper(spriteBatch);
             objects.ForEach(x => x.Draw(drawHelper));
-            //drawBuffer.Finish();
+            //drawHelper.Finish();
         }
         #endregion
     }

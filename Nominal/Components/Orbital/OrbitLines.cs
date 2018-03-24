@@ -35,7 +35,7 @@ namespace Nominal.Components.Orbital
                 lr = gameObject.AddComponent<LineRenderer>();
             }
         }
-
+        /*
         public override void OnDestroy()
         {
             
@@ -45,7 +45,7 @@ namespace Nominal.Components.Orbital
         {
 
         }
-        
+        */
         public void SetOrbit(Orbit _orbit)
         {
             orbit = _orbit;
