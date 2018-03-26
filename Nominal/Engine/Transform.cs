@@ -95,6 +95,36 @@ namespace Nominal.Engine
         }
         private Transform _parent;
 
+        public Transform FindChild(string name, bool searchRecursivly = false)
+        {
+            if (!searchRecursivly)
+            {
+                return children.Find(x => x.gameObject.name == name);
+            }
+            else
+            {
+                if (children.Count == 0)
+                    return null;
+                var child = children.Select(x => x.gameObject.name == name ? x : (x.FindChild(name, true)));
+                if (child.Count() == 0)
+                    return null;
+                return child.First();
+            }
+        }
+        public List<Transform> FindChildren(string name, bool searchRecursivly = false)
+        {
+            if (!searchRecursivly)
+            {
+                return children.FindAll(x => x.gameObject.name == name).ToList();
+            }
+            else
+            {
+                if (children.Count == 0)
+                    return null;
+                return children.Select(x => x.gameObject.name == name ? x : (x.FindChild(name, true))).ToList();
+            }
+        }
+
         protected override void Destroy()
         {
             if (gameObject)
