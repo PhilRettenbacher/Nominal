@@ -123,7 +123,7 @@ namespace Nominal.Engine
         private void Update()
         {
             components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
-            components.Where(x => x is IUpdateable).ToList().ForEach(x => ((IUpdateable)x).Update());
+            components.Where(x => x is IUpdateable && x.isInitialized).ToList().ForEach(x => ((IUpdateable)x).Update());
         }
         private void Draw(DrawHelper drawBuffer)
         {

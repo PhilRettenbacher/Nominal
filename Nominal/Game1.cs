@@ -57,6 +57,7 @@ namespace Nominal
 
             go1.AddComponent<TestComponent>();
             go1.transform.parent = go.transform;
+            go1.GetComponent<TestComponent>().o = new OrbitalMechanics.Orbit(1, 0.2, 1, 100, 2, true);
 
             graphics.PreferredBackBufferHeight = (int)(GraphicsDevice.DisplayMode.Height / 1.5);
             graphics.PreferredBackBufferWidth = (int)(GraphicsDevice.DisplayMode.Width / 1.5);

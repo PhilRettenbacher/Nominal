@@ -15,7 +15,7 @@ namespace Nominal.Test
 {
     class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {
-        Orbit o;
+        public Orbit o;
 
         public override void Awake()
         {
