@@ -12,6 +12,7 @@ namespace Nominal.Engine
         #region StaticVars
         //List of all GOs in Game
         static List<GameObject> objects = new List<GameObject>();
+        static List<Component> toStart = new List<Component>();
         #endregion
 
         #region NonStaticVars
@@ -78,6 +79,7 @@ namespace Nominal.Engine
             component.gameObject = this;
             component.transform = transform;
             components.Add(component);
+            toStart.Add(component);
             component.Awake();
             return component;
         }
@@ -95,6 +97,8 @@ namespace Nominal.Engine
 
         public void RemoveComponent(Component toRemove)
         {
+            if (toStart.Contains(toRemove))
+                toStart.Remove(toRemove);
             if(!toRemove.isDestroyed)
             {
                 Destroy(toRemove);
@@ -122,12 +126,16 @@ namespace Nominal.Engine
 
         private void Update()
         {
-            components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
-            components.Where(x => x is IUpdateable && x.isInitialized).ToList().ForEach(x => ((IUpdateable)x).Update());
+            var startList = new List<Component>(toStart);
+            toStart.Clear();
+            startList.ForEach(x => x.Start());
+            var updateList = components.Where(x => x is IUpdateable).ToList();
+            updateList.ForEach(x => ((IUpdateable)x).Update());
         }
         private void Draw(DrawHelper drawBuffer)
         {
-            components.Where(x => x is IDrawable).ToList().ForEach(x => ((IDrawable)x).Draw(drawBuffer));
+            var drawList = components.Where(x => x is IDrawable).ToList();
+            drawList.ForEach(x => ((IDrawable)x).Draw(drawBuffer));
         }
         #endregion
 

@@ -17,12 +17,9 @@ namespace Nominal.Test
     {
         public Orbit o;
 
-        public override void Awake()
-        {
-            o = new Orbit(5, 0.8, 2, 200, 2, true);
-        }
         public override void Start()
         {
+            o = new Orbit(5, 0.8, 2, 200, 2, true);
             OrbitLines ol = gameObject.AddComponent<OrbitLines>();
             ol.SetOrbit(o);
         }

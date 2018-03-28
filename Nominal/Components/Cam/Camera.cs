@@ -30,7 +30,7 @@ namespace Nominal.Components.Cam
         }
         float _cameraSize = 10;
 
-        public override void Awake()
+        public override void Start()
         {
             if (!mainCamera)
                 mainCamera = this;

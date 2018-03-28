@@ -17,9 +17,10 @@ namespace Nominal.Components
         public float unitsPerPixel = 1f;
         public bool normalizeSize = false;
 
-        public override void Awake()
+        public override void Start()
         {
-            texture = Assets.GetTexture("placeholder001");
+            if(texture == null)
+                texture = Assets.GetTexture("placeholder001");
         }
         
         public void Draw(DrawHelper drawHelper)

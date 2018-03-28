@@ -15,22 +15,6 @@ namespace Nominal.Engine
         virtual public void Start() { }
         virtual public void OnDestroy() { }
 
-        public bool isInitialized
-        {
-            get
-            {
-                return _isInitialized;
-            }
-            set
-            {
-                if(!_isInitialized&&value)
-                {
-                    _isInitialized = true;
-                    Start();
-                }
-            }
-        }
-        private bool _isInitialized;
 
         override protected sealed void Destroy()
         {
