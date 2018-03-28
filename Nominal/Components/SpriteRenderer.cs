@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace Nominal.Components
 {
-    class SpriteRenderer : Component, Engine.IDrawable
+    class SpriteRenderer : Component, Engine.IDrawable, IUniqueComponent
     {
         public Texture2D texture;
         public Color color = Color.Green;
@@ -19,10 +19,10 @@ namespace Nominal.Components
 
         public override void Awake()
         {
-            
+            texture = Assets.GetTexture("placeholder001");
         }
         
-        public void Draw(DrawBuffer drawBuffer)
+        public void Draw(DrawHelper drawHelper)
         {
             DVector2 size = DVector2.zero;
             if (normalizeSize)
@@ -45,9 +45,9 @@ namespace Nominal.Components
                 size = new DVector2(transform.size.X * texture.Width * unitsPerPixel, transform.size.Y * texture.Height * unitsPerPixel);
             }
 
-            drawBuffer.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2, texture.Height/2.0f), color);
+            drawHelper.DrawSprite(texture, transform, DVector2.zero, size, DrawSpace.World, transform.rotation, new Vector2(texture.Width/2.0f, texture.Height/2.0f), color);
         }
-
+        /*
         public override void OnDestroy()
         {
             
@@ -56,5 +56,6 @@ namespace Nominal.Components
         {
             
         }
+        */
     }
 }

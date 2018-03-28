@@ -24,7 +24,6 @@ namespace Nominal.Engine
         }
         public static void Destroy(Object toDestroy)
         {
-            System.Console.WriteLine(toDestroy.GetType());
             toDestroy.Destroy();
         }
         public static implicit operator bool(Object gameObject)

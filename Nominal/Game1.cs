@@ -43,24 +43,24 @@ namespace Nominal
             
             base.Initialize();
 
-            Texture2D text = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            Color[] data = new Color[1];
-            for(int i = 0; i<1; i++)
-            {
-                data[i] = Color.White;
-            }
-            text.SetData(data);
+            Assets.Initialize(graphics.GraphicsDevice);
 
             camGo = new GameObject();
             go = new GameObject();
             camGo.AddComponent<Components.Cam.Camera>();
-            LineRenderer rend = go.AddComponent<LineRenderer>();
-            rend.texture = text;
-            rend.points = new DVector2[] { new DVector2(0, 0), new DVector2(5, 0), new DVector2(5, -5) };
+            SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+
             go.AddComponent<TestComponent>();
 
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height / 1;
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width / 1;
+            GameObject go1 = new GameObject();
+            SpriteRenderer rend1 = go1.AddComponent<SpriteRenderer>();
+
+            go1.AddComponent<TestComponent>();
+            go1.transform.parent = go.transform;
+            go1.GetComponent<TestComponent>().o = new OrbitalMechanics.Orbit(1, 0.2, 1, 100, 2, true);
+
+            graphics.PreferredBackBufferHeight = (int)(GraphicsDevice.DisplayMode.Height / 1.5);
+            graphics.PreferredBackBufferWidth = (int)(GraphicsDevice.DisplayMode.Width / 1.5);
             graphics.ApplyChanges();
         }
 
@@ -106,10 +106,9 @@ namespace Nominal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
             Time.gameTimeDraw = gameTime;
 
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(new Color(0.1f, 0.1f, 0.1f));
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp);
             GameObject.DrawObjects(spriteBatch);

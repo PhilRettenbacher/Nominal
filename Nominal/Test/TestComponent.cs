@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Nominal.Components;
 using Nominal.Components.Cam;
+using Nominal.Components.Orbital;
 using Nominal.Engine;
+using Nominal.OrbitalMechanics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,32 +15,35 @@ namespace Nominal.Test
 {
     class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {
+        public Orbit o;
 
         public override void Awake()
         {
-            Console.WriteLine("Awake");
+            o = new Orbit(5, 0.8, 2, 200, 2, true);
         }
         public override void Start()
         {
-            Console.WriteLine("Start");
+            OrbitLines ol = gameObject.AddComponent<OrbitLines>();
+            ol.SetOrbit(o);
         }
      
-        public void Draw(DrawBuffer drawBuffer)
+        public void Draw(DrawHelper drawBuffer)
         {
 
         }
 
         public void Update()
         {
-            LineRenderer lr = this.gameObject.GetComponent<LineRenderer>();
-            if(lr)
-                lr.points = new DVector2[] { new DVector2(-5, 0), new DVector2(System.Math.Sin(Time.time), System.Math.Cos(Time.time)), new DVector2(5, -5) };
-            Camera.mainCamera.cameraSize += InputManager.mouseDelta*0.01f;
+            o.UpdateOrbit(Time.deltaTimeUpdate);
+            transform.localPosition = o.position;
+            Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
+            transform.rotation += Time.deltaTimeUpdate * 2;
         }
-
+        /*
         public override void OnDestroy()
         {
-            Console.WriteLine("Destroyed");
+
         }
+        */
     }
 }

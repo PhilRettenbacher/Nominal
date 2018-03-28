@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nominal.Components.Cam
 {
-    class Camera : Component
+    class Camera : Component, IUniqueComponent
     {
         public static Camera mainCamera;
 
@@ -35,6 +35,7 @@ namespace Nominal.Components.Cam
             if (!mainCamera)
                 mainCamera = this;
         }
+        /*
         public override void OnDestroy()
         {
             
@@ -43,6 +44,8 @@ namespace Nominal.Components.Cam
         {
             
         }
+        */
+
         /*private DVector2 Translate(Transform curr)
         {
             DVector2 pos = Transform.GetRelativePos(curr, transform);

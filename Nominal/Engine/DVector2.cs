@@ -82,6 +82,11 @@ namespace Nominal.Engine
             return new Vector2((float)X, (float)Y);
         }
 
+        public DVector2 Rotate(double angle)
+        {
+            return new DVector2(System.Math.Cos(angle) * X - System.Math.Sin(angle) * Y, System.Math.Sin(angle) * X + System.Math.Cos(angle) * Y);
+        }
+
         public static double Distance(DVector2 a, DVector2 b)
         {
             return (a - b).magnitude;

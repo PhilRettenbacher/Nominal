@@ -65,7 +65,16 @@ namespace Nominal.Engine
         {
             if (isDestroyed)
                 return null;
+           
             T component = new T();
+            if(((Component)component) is IUniqueComponent)
+            {
+                if(GetComponent<T>())
+                {
+                    System.Console.WriteLine("There already exists a Component of Type " + typeof(T) + " on this Object!");
+                    return null;
+                }
+            }
             component.gameObject = this;
             component.transform = transform;
             components.Add(component);
@@ -77,7 +86,7 @@ namespace Nominal.Engine
             if (isDestroyed)
                 return null;
             var comps = components.Where(x => typeof(T).Equals(x.GetType()));
-            System.Console.WriteLine("Comps:" + comps.Count());
+
             if (comps.Count() > 0)
                 return (T)comps.First();
             else
@@ -114,9 +123,9 @@ namespace Nominal.Engine
         private void Update()
         {
             components.Where(x => !x.isInitialized).ToList().ForEach(x => x.isInitialized = true);
-            components.Where(x => x is IUpdateable).ToList().ForEach(x => ((IUpdateable)x).Update());
+            components.Where(x => x is IUpdateable && x.isInitialized).ToList().ForEach(x => ((IUpdateable)x).Update());
         }
-        private void Draw(DrawBuffer drawBuffer)
+        private void Draw(DrawHelper drawBuffer)
         {
             components.Where(x => x is IDrawable).ToList().ForEach(x => ((IDrawable)x).Draw(drawBuffer));
         }
@@ -126,13 +135,11 @@ namespace Nominal.Engine
 
         public static IEnumerable<GameObject> FindObjects(string name)
         {
-            //TODO
-            return null;
+            return objects.Where(x => x.name.Equals(name));
         }
         public static GameObject FindObject(string name)
         {
-            //TODO
-            return null;
+            return objects.Find(x => x.name.Equals(name));
         }
 
         public static void UpdateObjects()
@@ -141,9 +148,9 @@ namespace Nominal.Engine
         }
         public static void DrawObjects(SpriteBatch spriteBatch)
         {
-            DrawBuffer drawBuffer = new DrawBuffer(spriteBatch);
-            objects.ForEach(x => x.Draw(drawBuffer));
-            drawBuffer.Finish();
+            DrawHelper drawHelper = new DrawHelper(spriteBatch);
+            objects.ForEach(x => x.Draw(drawHelper));
+            //drawHelper.Finish();
         }
         #endregion
     }

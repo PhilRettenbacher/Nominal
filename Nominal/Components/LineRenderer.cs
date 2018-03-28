@@ -9,17 +9,13 @@ using Microsoft.Xna.Framework;
 
 namespace Nominal.Components
 {
-    public class LineRenderer : Component, Engine.IDrawable
+    public class LineRenderer : Component, Engine.IDrawable, IUniqueComponent
     {
-        public TransformSpace transformSpace = TransformSpace.Local;
+        public Transform target;
         public Texture2D texture;
         public Color color = Color.White;
         public DVector2[] points
         {
-            get
-            {
-                return _points;
-            }
             set
             {
                 _points = value;
@@ -27,35 +23,42 @@ namespace Nominal.Components
             }
         }
         private DVector2[] _points;
-        public double width = 1;
+        public double width = 2;
 
         private RenderLine[] renderLines;
 
         public override void Awake()
         {
-            
+            texture = Assets.GetTexture("placeholder001");
         }
+        
         public override void Start()
         {
-
+            System.Console.WriteLine("Start");
         }
-
-        public void Draw(DrawBuffer drawBuffer)
+        
+        public void Draw(DrawHelper drawBuffer)
         {
-            System.Console.WriteLine(renderLines.Length);
-            for(int i = 0; i<renderLines.Length; i++)
+            for(int i = 0;i<renderLines.Length; i++)
             {
-                drawBuffer.DrawSprite(texture, transformSpace == TransformSpace.World ? null : transform, renderLines[i].pos, new DVector2(renderLines[i].scale, width), DrawSpace.World, renderLines[i].rotation, new Vector2(0, ((float)texture.Height)/2f), color);
+                drawBuffer.DrawLine(texture, target, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
             }
         }
-
+        /*
         public override void OnDestroy()
         {
             
         }
-
+        */
+        public void SetPointAt(DVector2 value, int index)
+        {
+            _points[index] = value;
+            RecalculateLines();
+        }
         private void RecalculateLines()
         {
+            if (_points.Length == 0)
+                return;
             renderLines = new RenderLine[_points.Length-1];
             for(int i = 0; i<renderLines.Length; i++)
             {
