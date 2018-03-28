@@ -13,6 +13,15 @@ namespace Nominal.Engine
         //List of all GOs in Game
         static List<GameObject> objects = new List<GameObject>();
         static List<Component> toStart = new List<Component>();
+
+        public static bool onClear
+        {
+            get
+            {
+                return _onClear;
+            }
+        }
+        static private bool _onClear = false;
         #endregion
 
         #region NonStaticVars
@@ -56,6 +65,12 @@ namespace Nominal.Engine
 
             name = "New GO";
 
+            if (_onClear)
+            {
+                Console.WriteLine("Objects can't be instantiated while clearing the Scene");
+                Destroy(this);
+                return;
+            }
             objects.Add(this);
         }
         #endregion
@@ -66,7 +81,11 @@ namespace Nominal.Engine
         {
             if (isDestroyed)
                 return null;
-           
+            if(_onClear)
+            {
+                Console.WriteLine("Objects can't be instantiated while clearing the Scene");
+                return null;
+            }
             T component = new T();
             if(((Component)component) is IUniqueComponent)
             {
@@ -99,14 +118,14 @@ namespace Nominal.Engine
         {
             if (toStart.Contains(toRemove))
                 toStart.Remove(toRemove);
-            if(!toRemove.isDestroyed)
+            if (components.Contains(toRemove))
+            {
+                components.Remove(toRemove);
+            }
+            if (!toRemove.isDestroyed)
             {
                 Destroy(toRemove);
                 return;
-            }
-            if(components.Contains(toRemove))
-            {
-                components.Remove(toRemove);
             }
         }
 
@@ -126,16 +145,22 @@ namespace Nominal.Engine
 
         private void Update()
         {
-            var startList = new List<Component>(toStart);
-            toStart.Clear();
-            startList.ForEach(x => x.Start());
-            var updateList = components.Where(x => x is IUpdateable).ToList();
-            updateList.ForEach(x => ((IUpdateable)x).Update());
+            if (!_onClear)
+            {
+                var startList = new List<Component>(toStart);
+                toStart.Clear();
+                startList.ForEach(x => x.Start());
+                var updateList = components.Where(x => x is IUpdateable).ToList();
+                updateList.ForEach(x => ((IUpdateable)x).Update());
+            }
         }
         private void Draw(DrawHelper drawBuffer)
         {
-            var drawList = components.Where(x => x is IDrawable).ToList();
-            drawList.ForEach(x => ((IDrawable)x).Draw(drawBuffer));
+            if (!_onClear)
+            {
+                var drawList = components.Where(x => x is IDrawable).ToList();
+                drawList.ForEach(x => ((IDrawable)x).Draw(drawBuffer));
+            }
         }
         #endregion
 
@@ -150,15 +175,35 @@ namespace Nominal.Engine
             return objects.Find(x => x.name.Equals(name));
         }
 
+        public static void ClearAll()
+        {
+            Console.WriteLine("ClearAll");
+            _onClear = true;
+        }
+
         public static void UpdateObjects()
         {
-            objects.ForEach(x => x.Update());
+            if (!_onClear)
+            {
+                var updateList = new List<GameObject>(objects);
+                updateList.ForEach(x => x.Update());
+            }
+            else
+            {
+                Console.WriteLine("ClearAll!");
+                var gmList = new List<GameObject>(objects);
+                gmList.ForEach(x => Destroy(x));
+                _onClear = false;
+            }
         }
         public static void DrawObjects(SpriteBatch spriteBatch)
         {
-            DrawHelper drawHelper = new DrawHelper(spriteBatch);
-            objects.ForEach(x => x.Draw(drawHelper));
-            //drawHelper.Finish();
+            if (!_onClear)
+            {
+                DrawHelper drawHelper = new DrawHelper(spriteBatch);
+                var drawList = new List<GameObject>(objects);
+                drawList.ForEach(x => x.Draw(drawHelper));
+            }
         }
         #endregion
     }

@@ -4,6 +4,7 @@ using Nominal.Components;
 using Nominal.Components.Cam;
 using Nominal.Components.Orbital;
 using Nominal.Engine;
+using Nominal.Engine.SceneManagement;
 using Nominal.OrbitalMechanics;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,17 @@ namespace Nominal.Test
             transform.localPosition = o.position;
             Camera.mainCamera.cameraSize += InputManager.mouseDelta / (float)200;
             transform.rotation += Time.deltaTimeUpdate * 2;
+            if(InputManager.GetKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+            {
+                if(SceneManager.currLevel==0)
+                {
+                    SceneManager.LoadLevel(1);
+                }
+                else
+                {
+                    SceneManager.LoadLevel(0);
+                }
+            }
         }
         /*
         public override void OnDestroy()
