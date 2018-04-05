@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nominal.Test
+namespace Nominal.Test //Diese Klasse ist für Testcomponents 
 {
     class TestComponent : Component, Engine.IDrawable, Engine.IUpdateable
     {

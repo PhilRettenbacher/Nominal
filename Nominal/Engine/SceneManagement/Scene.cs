@@ -8,6 +8,6 @@ namespace Nominal.Engine.SceneManagement
 {
     public abstract class Scene
     {
-        public abstract void Initialize();
+        public abstract void Initialize();//Die Szene wird initialisiert 
     }
 }

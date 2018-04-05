@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Nominal.Engine
 {
-    public sealed class GameObject : Object
+    public sealed class GameObject : Object //a
     {
         #region StaticVars
         //List of all GOs in Game
-        static List<GameObject> objects = new List<GameObject>();
-        static List<Component> toStart = new List<Component>();
+        static List<GameObject> objects = new List<GameObject>(); //neue Liste initialisieren
+        static List<Component> toStart = new List<Component>();     //noch eine neue Liste initialisieren
 
         public static bool onClear
         {
@@ -54,7 +54,7 @@ namespace Nominal.Engine
         private List<Component> components = new List<Component>();
         #endregion
 
-        #region Constructors
+        #region Constructors        
         public GameObject()
         {
             _transform = new Transform();
@@ -69,7 +69,8 @@ namespace Nominal.Engine
             {
                 Console.WriteLine("Objects can't be instantiated while clearing the Scene");
                 Destroy(this);
-                return;
+                return;                     //callback wird hier
+                            //ausgeführt
             }
             objects.Add(this);
         }
@@ -99,7 +100,7 @@ namespace Nominal.Engine
             component.transform = transform;
             components.Add(component);
             toStart.Add(component);
-            component.Awake();
+            component.Awake();      //Hallo aufstehen du Faulpelz
             return component;
         }
         public T GetComponent<T>() where T : Component
@@ -124,7 +125,7 @@ namespace Nominal.Engine
             }
             if (!toRemove.isDestroyed)
             {
-                Destroy(toRemove);
+                Destroy(toRemove);      //askdjfklajflkdsfsköldjöfdslöjkflkasdjf
                 return;
             }
         }
@@ -147,7 +148,7 @@ namespace Nominal.Engine
         {
             if (!_onClear)
             {
-                var startList = new List<Component>(toStart);
+                var startList = new List<Component>(toStart);          //die startliste wird gestartet
                 toStart.Clear();
                 startList.ForEach(x => x.Start());
                 var updateList = components.Where(x => x is IUpdateable).ToList();
