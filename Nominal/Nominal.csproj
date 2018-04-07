@@ -60,6 +60,8 @@
     <Compile Include="Engine\SceneManagement\SceneManager.cs" />
     <Compile Include="Engine\Time.cs" />
     <Compile Include="Engine\Transform.cs" />
+    <Compile Include="Engine\UIElements\DropDownBox.cs" />
+    <Compile Include="Engine\UIElements\UIElement.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Engine\DVector2.cs" />
     <Compile Include="OrbitalMechanics\Orbit.cs" />

@@ -48,11 +48,5 @@ namespace Nominal.Test
                 }
             }
         }
-        /*
-        public override void OnDestroy()
-        {
-
-        }
-        */
     }
 }

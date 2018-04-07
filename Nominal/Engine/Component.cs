@@ -10,7 +10,6 @@ namespace Nominal.Engine
 {
     public abstract class Component : Container
     {
-        //Made virtual not abstract because sometimes no need to override
         virtual public void Awake() { }
         virtual public void Start() { }
         virtual public void OnDestroy() { }

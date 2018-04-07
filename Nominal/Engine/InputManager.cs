@@ -39,5 +39,22 @@ namespace Nominal.Engine
                 return Mouse.GetState().ScrollWheelValue - oldMouseState.ScrollWheelValue;
             }
         }
+        
+        public static DVector2 mousePosition
+        {
+            get
+            {
+                return new DVector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
+            }
+        }
+
+        public static bool mouseClicked
+        {
+            get
+            {
+                return (Mouse.GetState().LeftButton == ButtonState.Pressed && oldMouseState.LeftButton != Mouse.GetState().LeftButton);
+            }
+        }
+
     }
 }
