@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Nominal.Components;
 using Nominal.Engine;
+using Nominal.Engine.SceneManagement;
 using Nominal.Test;
 using System.Linq;
 
@@ -45,18 +46,10 @@ namespace Nominal
 
             Assets.Initialize(graphics.GraphicsDevice);
 
-            camGo = new GameObject();
-            go = new GameObject();
-            camGo.AddComponent<Components.Cam.Camera>();
-            SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+            SceneManager.InitializeScene(new TestScene());
+            SceneManager.InitializeScene(new TestScene2());
 
-            go.AddComponent<TestComponent>();
-
-            GameObject go1 = new GameObject();
-            SpriteRenderer rend1 = go1.AddComponent<SpriteRenderer>();
-
-            go1.AddComponent<TestComponent>();
-            go1.transform.parent = go.transform;
+            SceneManager.LoadLevel(0);
 
             graphics.PreferredBackBufferHeight = (int)(GraphicsDevice.DisplayMode.Height / 1.5);
             graphics.PreferredBackBufferWidth = (int)(GraphicsDevice.DisplayMode.Width / 1.5);
@@ -94,6 +87,7 @@ namespace Nominal
             Time.gameTimeUpdate = gameTime;
 
             GameObject.UpdateObjects();
+            SceneManager.UpdateSceneManager();
 
             InputManager.LateUpdate();
             base.Update(gameTime);

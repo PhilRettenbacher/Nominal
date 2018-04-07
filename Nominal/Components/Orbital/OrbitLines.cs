@@ -53,7 +53,7 @@ namespace Nominal.Components.Orbital
         }
         public void Recalculate()
         {
-            if (orbit == null)
+            if (orbit == null||lr==null)
                 return;
             lr.target = transform.parent;
             lr.points = orbit.GetSubsets(_subsets);

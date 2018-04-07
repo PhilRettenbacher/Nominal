@@ -90,10 +90,40 @@ namespace Nominal.Engine
             {
                 if (isDestroyed)
                     return;
-                SetChild(this, _parent, value);
+                SetChild(_parent, value);
             }
         }
         private Transform _parent;
+
+        public Transform FindChild(string name, bool searchRecursivly = false)
+        {
+            if (!searchRecursivly)
+            {
+                return children.Find(x => x.gameObject.name == name);
+            }
+            else
+            {
+                if (children.Count == 0)
+                    return null;
+                var child = children.Select(x => x.gameObject.name == name ? x : (x.FindChild(name, true)));
+                if (child.Count() == 0)
+                    return null;
+                return child.First();
+            }
+        }
+        public List<Transform> FindChildren(string name, bool searchRecursivly = false)
+        {
+            if (!searchRecursivly)
+            {
+                return children.FindAll(x => x.gameObject.name == name).ToList();
+            }
+            else
+            {
+                if (children.Count == 0)
+                    return null;
+                return children.Select(x => x.gameObject.name == name ? x : (x.FindChild(name, true))).ToList();
+            }
+        }
 
         protected override void Destroy()
         {
@@ -110,21 +140,26 @@ namespace Nominal.Engine
             _parent = null;
         }
 
-        static void SetChild(Transform curr, Transform from, Transform to)
+        private void SetChild(Transform from, Transform to)
         {
-            DVector2 relPos = GetRelativePos(from, to) + curr.localPosition;
-            curr._parent = to;
+            if (to == this)
+                return;
+
+            DVector2 relPos = GetRelativePos(from, to) + localPosition;
+            _parent = to;
             
             if(from)
             {
-                if (from.children.Contains(curr))
-                    from.children.Remove(curr);
+                if (from.children.Contains(this))
+                    from.children.Remove(this);
             }
             if(to)
             {
-                to.children.Add(curr);
+                if (to.children.Find(x => x == this))
+                    return;
+                to.children.Add(this);
             }
-            curr.localPosition = relPos;
+            localPosition = relPos;
         }
 
         /// <summary>

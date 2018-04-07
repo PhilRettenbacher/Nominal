@@ -25,21 +25,18 @@ namespace Nominal.Components
         private DVector2[] _points;
         public double width = 2;
 
-        private RenderLine[] renderLines;
-
-        public override void Awake()
-        {
-            texture = Assets.GetTexture("placeholder001");
-        }
-        /*
+        private RenderLine[] renderLines = new RenderLine[0];
+        
         public override void Start()
         {
-
+            System.Console.WriteLine("StartLine");
+            if(texture == null)
+                texture = Assets.GetTexture("placeholder001");
         }
-        */
+        
         public void Draw(DrawHelper drawBuffer)
         {
-            for(int i = 0; i<renderLines.Length; i++)
+            for(int i = 0;i<renderLines.Length; i++)
             {
                 drawBuffer.DrawLine(texture, target, renderLines[i].pos, width, renderLines[i].scale, renderLines[i].rotation, DrawSpace.World, color);
             }
