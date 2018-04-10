@@ -48,11 +48,5 @@ namespace Nominal.Test //Diese Klasse ist für Testcomponents
                 }
             }
         }
-        /*
-        public override void OnDestroy()
-        {
-
-        }
-        */
     }
 }
