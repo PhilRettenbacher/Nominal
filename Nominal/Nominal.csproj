@@ -62,6 +62,7 @@
     <Compile Include="Engine\Transform.cs" />
     <Compile Include="Engine\UIElements\DropDownBox.cs" />
     <Compile Include="Engine\UIElements\UIElement.cs" />
+    <Compile Include="Engine\UI\UIObject.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Engine\DVector2.cs" />
     <Compile Include="OrbitalMechanics\Orbit.cs" />

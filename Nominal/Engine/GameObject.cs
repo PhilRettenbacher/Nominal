@@ -178,8 +178,9 @@ namespace Nominal.Engine
 
         public static void ClearAll()
         {
-            Console.WriteLine("ClearAll");
             _onClear = true;
+            if (!UI.UIObject.onClear)
+                UI.UIObject.ClearAll();
         }
 
         public static void UpdateObjects()
