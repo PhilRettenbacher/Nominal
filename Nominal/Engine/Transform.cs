@@ -144,7 +144,8 @@ namespace Nominal.Engine
         {
             if (to == this)
                 return;
-
+            if (GetRelativePosToParent(to, this) != null)
+                return;
             DVector2 relPos = GetRelativePos(from, to) + localPosition;
             _parent = to;
             
