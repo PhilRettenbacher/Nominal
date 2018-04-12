@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -124,7 +125,7 @@ namespace Nominal.Engine.UI
         #endregion
 
         #region NonStaticFuncs
-
+ 
         override protected sealed void Destroy()
         {
             base.Destroy();// hier wird die base zerstört
@@ -178,6 +179,14 @@ namespace Nominal.Engine.UI
                     anchorMin.Y = min;
                 }
             }
+        }
+        /// <summary>
+        /// Returns the Screen Rectangle of this UIObject in TextureCoordinates
+        /// </summary>
+        protected Rectangle GetViewRect()
+        {
+            //Nope, this not how we do it
+            return new Rectangle();
         }
         #endregion
     }
