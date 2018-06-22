@@ -73,6 +73,7 @@
     <Compile Include="Test\TestComponent.cs" />
     <Compile Include="Test\TestScene.cs" />
     <Compile Include="Test\TestScene2.cs" />
+    <Compile Include="Test\TestUIObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

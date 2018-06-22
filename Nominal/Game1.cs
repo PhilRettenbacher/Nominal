@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Nominal.Components;
 using Nominal.Engine;
 using Nominal.Engine.SceneManagement;
+using Nominal.Engine.UI;
 using Nominal.Test;
 using System.Linq;
 
@@ -87,6 +88,7 @@ namespace Nominal
             Time.gameTimeUpdate = gameTime;
 
             GameObject.UpdateObjects();
+            UIObject.UpdateUI();
             SceneManager.UpdateSceneManager();
 
             InputManager.LateUpdate();
@@ -105,6 +107,7 @@ namespace Nominal
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp);
             GameObject.DrawObjects(spriteBatch);
+            UIObject.DrawUI(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

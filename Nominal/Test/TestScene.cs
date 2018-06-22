@@ -2,6 +2,7 @@
 using Nominal.Engine;
 using System;
 using Nominal.Components;
+using Microsoft.Xna.Framework;
 
 namespace Nominal.Test
 {
@@ -22,6 +23,17 @@ namespace Nominal.Test
             go1.AddComponent<TestComponent>();
             go1.transform.parent = go.transform;
             go1.GetComponent<TestComponent>().o = new OrbitalMechanics.Orbit(1, 0.2, 1, 100, 2, true);
+
+            TestUIObject uiObj = new TestUIObject();
+            uiObj.SetAnchorPreset(AnchorPreset.StretchStretch);
+            uiObj.anchorMax = new DVector2(0.5, 0.5);
+            uiObj.color = Color.Green;
+
+            TestUIObject uiObj2 = new TestUIObject();
+            uiObj2.SetAnchorPreset(AnchorPreset.LeftTop);
+            uiObj2.offsetMax = new Point(960, 540);
+            uiObj2.color = Color.Red;
+            uiObj2.parent = uiObj;
         }
     }
 }
